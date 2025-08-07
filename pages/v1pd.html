@@ -1,39 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Homework 5: Introduction to Decomposition</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../lib/highlight/styles/github.min.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../lib/highlight/styles/github.min.css" />
+  </head>
+  <body>
     <div class="page-container">
-        <aside class="sidebar">
-            <h3>Problem Sets</h3>
-            <nav>
-                <ul>
-                    <li><a href="v1pd.html" class="active">Homework 5</a></li>
-                    <li><a href="v2pd.html">Homework 7</a></li>
-                    <li><a href="v3pd.html">Homework 8</a></li>
-                    <li><a href="v4pd.html">Homework 9</a></li>
-                </ul>
-            </nav>
-        </aside>
-        <main class="content">
-            <header>
-                <h1>Homework 5: Introduction to Decomposition</h1>
-                <nav class="toc-container">
-                    <h3>Table of Contents</h3>
-                    <ul id="toc"></ul>
-                </nav>
-            </header>
+      <aside class="sidebar">
+        <div>
+          <h3>Problem Sets</h3>
+          <nav>
+            <ul>
+              <li><a href="v1pd.html" class="active">Homework 5</a></li>
+              <li><a href="v2pd.html">Homework 7</a></li>
+              <li><a href="v3pd.html">Homework 8</a></li>
+              <li><a href="v4pd.html">Homework 9</a></li>
+            </ul>
+          </nav>
+        </div>
+        <a href="../index.html" class="sidebar-home-link">Go Home</a>
+      </aside>
+      <main class="content">
+        <header>
+          <h1>Homework 5: Introduction to Decomposition</h1>
+          <nav class="toc-container">
+            <h3>Table of Contents</h3>
+            <ul id="toc"></ul>
+          </nav>
+        </header>
 
-            <div class="question" id="q1">
-                <h2>Identifying Decomposition Issues with Tuples and Lists</h2>
-                <p><strong>Scenario:</strong> Imagine that you’re part of the CSE 8A Instructional Team, collecting some info about the students in your class! You have a pipeline that extracts some data about your students enrolled, and in your larger pipeline, you get a list of tuples, where each tuple contains a student's name (string) and their major (string). You need to create a new list containing only the names of students in a CSE Major. Consider the following code snippet designed to achieve this.</p>
-                <p>Currently the existing pipeline looks like the code below.</p>
-                <pre><code class="language-python">
+        <div class="question" id="q1">
+          <h2>Identifying Decomposition Issues with Tuples and Lists</h2>
+          <p>
+            <strong>Scenario:</strong> Imagine that you’re part of the CSE 8A
+            Instructional Team, collecting some info about the students in your
+            class! You have a pipeline that extracts some data about your
+            students enrolled, and in your larger pipeline, you get a list of
+            tuples, where each tuple contains a student's name (string) and
+            their major (string). You need to create a new list containing only
+            the names of students in a CSE Major. Consider the following code
+            snippet designed to achieve this.
+          </p>
+          <p>Currently the existing pipeline looks like the code below.</p>
+          <pre><code class="language-python">
 def data_pipeline():
     # Read from a file 
     with open("data.txt", "r") as data_file:
@@ -58,21 +70,33 @@ def data_pipeline():
     for name in cs_students:
         print(name)
                 </code></pre>
-                <p>In Chapter 7, especially in Sections 7.1 and 7.4, you learned about breaking big problems into smaller, manageable parts—this is called Problem Decomposition (or Top-Down Design). It helps make your code easier to read, reuse, and fix.</p>
-                <p><strong>Question:</strong> Take a look at the code snippet above. What are some problems in the code that could be solved by breaking it up into smaller parts (if anything)? (Select All)</p>
-                <ul>
-                    <li>It does too many different things in one function</li>
-                    <li>It calls too many leaf functions from our codebase</li>
-                    <li>The function should both print and return the results (not just print them)</li>
-                    <li>It’s hard to reuse any of the code in other places</li>
-                    <li>None — it’s already written in a clear, reusable way</li>
-                </ul>
-            </div>
+          <p>
+            In Chapter 7, especially in Sections 7.1 and 7.4, you learned about
+            breaking big problems into smaller, manageable parts—this is called
+            Problem Decomposition (or Top-Down Design). It helps make your code
+            easier to read, reuse, and fix.
+          </p>
+          <p>
+            <strong>Question:</strong> Take a look at the code snippet above.
+            What are some problems in the code that could be solved by breaking
+            it up into smaller parts (if anything)? (Select All)
+          </p>
+          <ul>
+            <li>It does too many different things in one function</li>
+            <li>It calls too many leaf functions from our codebase</li>
+            <li>
+              The function should both print and return the results (not just
+              print them)
+            </li>
+            <li>It’s hard to reuse any of the code in other places</li>
+            <li>None — it’s already written in a clear, reusable way</li>
+          </ul>
+        </div>
 
-            <div class="question" id="q2">
-                <h2>Decomposing the Data Pipeline</h2>
-                <p>Here is the same code examined in a previous question:</p>
-                <pre><code class="language-python">
+        <div class="question" id="q2">
+          <h2>Decomposing the Data Pipeline</h2>
+          <p>Here is the same code examined in a previous question:</p>
+          <pre><code class="language-python">
 def data_pipeline():
     # Read from a file 
     with open("data.txt", "r") as data_file:
@@ -97,22 +121,53 @@ def data_pipeline():
     for name in cs_students:
         print(name)
                 </code></pre>
-                <p>You redesign the code so that “data_pipeline” is now a parent function. That function calls a function “read_from_file(file_name)” that returns the lines of the file as a list. It then passes that list to the “process_the_data(lines)” function that returns a list of tuples which contain (name, major). Next, you want to call a function that will filter out the names of just the students who are in CS majors (the names of “CS majors” can vary depending on your definition of a CS majors). (After you call the filter function, you’ll have this parent function print the names of the students who are CS majors.) Which function signature is likely the best?</p>
-                <ol type="A">
-                    <li><code>filter()</code></li>
-                    <li><code>filter(student_data)</code></li>
-                    <li><code>filter(student_data, cse_majors)</code></li>
-                    <li><code>filter(student_data, cse_majors, names)</code></li>
-                </ol>
-            </div>
+          <p>
+            You redesign the code so that “data_pipeline” is now a parent
+            function. That function calls a function “read_from_file(file_name)”
+            that returns the lines of the file as a list. It then passes that
+            list to the “process_the_data(lines)” function that returns a list
+            of tuples which contain (name, major). Next, you want to call a
+            function that will filter out the names of just the students who are
+            in CS majors (the names of “CS majors” can vary depending on your
+            definition of a CS majors). (After you call the filter function,
+            you’ll have this parent function print the names of the students who
+            are CS majors.) Which function signature is likely the best?
+          </p>
+          <ol type="A">
+            <li><code>filter()</code></li>
+            <li><code>filter(student_data)</code></li>
+            <li><code>filter(student_data, cse_majors)</code></li>
+            <li><code>filter(student_data, cse_majors, names)</code></li>
+          </ol>
+        </div>
 
-            <div class="question" id="q3">
-                <h2>Processing Project Tasks</h2>
-                <p><strong>Scenario:</strong> Imagine that you’re an engineer at a company and are given a dictionary where keys are project names (strings) and values are lists of tasks for that project. Each task is represented as a tuple containing the task name (string), its status ("completed" or "incomplete" - string), and its priority (integer, higher number means higher priority). You need to create a summary report: a dictionary in which keys are project names and values are dictionaries containing the count of "completed" tasks and the highest priority of an "incomplete" task for that project. If there are no incomplete tasks in a project, the highest incomplete priority should be 0.</p>
-                <p>In Sections 7.4–7.6 of the textbook, you were guided through a step-by-step approach to problem decomposition using a spell-check program as an example. Using those same principles, we've provided sample implementations of the project tracking problem below. Which of the following Python programs best meets the requirements outlined above, while also demonstrating the kind of structure and decomposition we’re looking for in a solid solution?</p>
-                <hr>
-                <p><strong>Option A:</strong></p>
-                <pre><code class="language-python">
+        <div class="question" id="q3">
+          <h2>Processing Project Tasks</h2>
+          <p>
+            <strong>Scenario:</strong> Imagine that you’re an engineer at a
+            company and are given a dictionary where keys are project names
+            (strings) and values are lists of tasks for that project. Each task
+            is represented as a tuple containing the task name (string), its
+            status ("completed" or "incomplete" - string), and its priority
+            (integer, higher number means higher priority). You need to create a
+            summary report: a dictionary in which keys are project names and
+            values are dictionaries containing the count of "completed" tasks
+            and the highest priority of an "incomplete" task for that project.
+            If there are no incomplete tasks in a project, the highest
+            incomplete priority should be 0.
+          </p>
+          <p>
+            In Sections 7.4–7.6 of the textbook, you were guided through a
+            step-by-step approach to problem decomposition using a spell-check
+            program as an example. Using those same principles, we've provided
+            sample implementations of the project tracking problem below. Which
+            of the following Python programs best meets the requirements
+            outlined above, while also demonstrating the kind of structure and
+            decomposition we’re looking for in a solid solution?
+          </p>
+          <hr />
+          <p><strong>Option A:</strong></p>
+          <pre><code class="language-python">
 def generate_project_summary_a(projects):
     summary = {}
     for project_name, tasks in projects.items():
@@ -128,9 +183,9 @@ def generate_project_summary_a(projects):
         summary[project_name] = {"completed_count": completed_count, "highest_incomplete_priority": highest_incomplete_priority}
     return summary
                 </code></pre>
-                <hr>
-                <p><strong>Option B:</strong></p>
-                <pre><code class="language-python">
+          <hr />
+          <p><strong>Option B:</strong></p>
+          <pre><code class="language-python">
 def generate_project_summary_c(projects):
     summary = {}
     for project_name, tasks in projects.items():
@@ -154,9 +209,9 @@ def find_highest_incomplete_priority(tasks):
                 highest_priority = task[2]
     return highest_priority
                 </code></pre>
-                <hr>
-                <p><strong>Option C:</strong></p>
-                <pre><code class="language-python">
+          <hr />
+          <p><strong>Option C:</strong></p>
+          <pre><code class="language-python">
 def generate_project_summary_d(projects):
     summary = {}
     for project_name, tasks in projects.items():
@@ -178,19 +233,42 @@ def process_tasks_and_summarize(tasks):
     
     return {"completed_count": completed_count, "highest_incomplete_priority": highest_incomplete_priority}
                 </code></pre>
-            </div>
+        </div>
 
-            <div class="question" id="q4">
-                <h2>Decomposition Issues with a Mixed Item List</h2>
-                <p><strong>Scenario:</strong> Consider the following Python function that takes a list structured such that the first few elements are integers, followed by some strings, and then some tuples. The function is intended to perform several operations based on this known structure:</p>
-                <ul>
-                    <li>Calculate the sum of the first <code>n_integers</code> elements (which are guaranteed to be integers).</li>
-                    <li>Create a new list containing all strings from the next <code>n_strings</code> elements (which are guaranteed to be strings) that have a length greater than 5.</li>
-                    <li>Count how many tuples in the remaining <code>n_tuples</code> elements (which are guaranteed to be tuples) contain at least one negative number.</li>
-                    <li>Print all the results.</li>
-                </ul>
-                <p>The function signature is <code>process_structured_list(data, n_integers, n_strings, n_tuples)</code>.</p>
-                <pre><code class="language-python">
+        <div class="question" id="q4">
+          <h2>Decomposition Issues with a Mixed Item List</h2>
+          <p>
+            <strong>Scenario:</strong> Consider the following Python function
+            that takes a list structured such that the first few elements are
+            integers, followed by some strings, and then some tuples. The
+            function is intended to perform several operations based on this
+            known structure:
+          </p>
+          <ul>
+            <li>
+              Calculate the sum of the first <code>n_integers</code> elements
+              (which are guaranteed to be integers).
+            </li>
+            <li>
+              Create a new list containing all strings from the next
+              <code>n_strings</code> elements (which are guaranteed to be
+              strings) that have a length greater than 5.
+            </li>
+            <li>
+              Count how many tuples in the remaining
+              <code>n_tuples</code> elements (which are guaranteed to be tuples)
+              contain at least one negative number.
+            </li>
+            <li>Print all the results.</li>
+          </ul>
+          <p>
+            The function signature is
+            <code
+              >process_structured_list(data, n_integers, n_strings,
+              n_tuples)</code
+            >.
+          </p>
+          <pre><code class="language-python">
 def process_structured_list(data, n_integers, n_strings, n_tuples):
     # Assume data list structure matches the counts
 
@@ -226,21 +304,64 @@ def process_structured_list(data, n_integers, n_strings, n_tuples):
     print(f"Long strings: {long_strings}")
     print(f"Count of tuples with negatives: {negative_tuple_count}")
                 </code></pre>
-                <p><strong>Question:</strong> Which of the following function prototypes, when called from a main part of the program with the original data list and appropriate counts, would be useful and align with the problem decomposition approach that you saw in 7.4-7.7 for solving the calculation and filtering parts of this problem? (Select all that apply.)</p>
-                <ol type="A">
-                    <li><code>calculate_sum_of_integers(data, n_integers)</code>: Takes the data list and the count of integers, and returns the sum of the initial integer segment.</li>
-                    <li><code>filter_strings_by_length(data, n_integers, n_strings)</code>: Takes the data list, the integer count (to find the start of strings), and the string count, and returns a new list with strings longer than 5 characters from the string segment.</li>
-                    <li><code>count_tuples_with_any_negative(data, n_integers, n_strings, n_tuples)</code>: Takes the data list and all three counts to find the tuple segment, and returns the count of tuples that contain at least one negative number.</li>
-                    <li><code>process_structured_list_helper(data, n_integers, n_strings, n_tuples)</code>: Takes the full structured list and counts, and performs all calculations and printing within this single function.</li>
-                    <li><code>count_total_elements(data)</code>: Takes the data list and returns the total number of elements.</li>
-                    <li><code>check_single_tuple_for_negative(a_tuple)</code>: Takes a single tuple and returns True if it contains a negative number, False otherwise.</li>
-                    <li><code>get_sum_and_strings(data, n_integers, n_strings)</code>: Takes the data list and counts for integers and strings, and returns both the sum of integers and the list of long strings.</li>
-                    <li><code>check_len_string(string)</code>: Returns the length of the supplied string.</li>
-                </ol>
-            </div>
-        </main>
+          <p>
+            <strong>Question:</strong> Which of the following function
+            prototypes, when called from a main part of the program with the
+            original data list and appropriate counts, would be useful and align
+            with the problem decomposition approach that you saw in 7.4-7.7 for
+            solving the calculation and filtering parts of this problem? (Select
+            all that apply.)
+          </p>
+          <ol type="A">
+            <li>
+              <code>calculate_sum_of_integers(data, n_integers)</code>: Takes
+              the data list and the count of integers, and returns the sum of
+              the initial integer segment.
+            </li>
+            <li>
+              <code>filter_strings_by_length(data, n_integers, n_strings)</code
+              >: Takes the data list, the integer count (to find the start of
+              strings), and the string count, and returns a new list with
+              strings longer than 5 characters from the string segment.
+            </li>
+            <li>
+              <code
+                >count_tuples_with_any_negative(data, n_integers, n_strings,
+                n_tuples)</code
+              >: Takes the data list and all three counts to find the tuple
+              segment, and returns the count of tuples that contain at least one
+              negative number.
+            </li>
+            <li>
+              <code
+                >process_structured_list_helper(data, n_integers, n_strings,
+                n_tuples)</code
+              >: Takes the full structured list and counts, and performs all
+              calculations and printing within this single function.
+            </li>
+            <li>
+              <code>count_total_elements(data)</code>: Takes the data list and
+              returns the total number of elements.
+            </li>
+            <li>
+              <code>check_single_tuple_for_negative(a_tuple)</code>: Takes a
+              single tuple and returns True if it contains a negative number,
+              False otherwise.
+            </li>
+            <li>
+              <code>get_sum_and_strings(data, n_integers, n_strings)</code>:
+              Takes the data list and counts for integers and strings, and
+              returns both the sum of integers and the list of long strings.
+            </li>
+            <li>
+              <code>check_len_string(string)</code>: Returns the length of the
+              supplied string.
+            </li>
+          </ol>
+        </div>
+      </main>
     </div>
     <script src="../lib/highlight/highlight.min.js"></script>
     <script src="../js/main.js"></script>
-</body>
+  </body>
 </html>

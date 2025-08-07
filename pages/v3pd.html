@@ -1,123 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Homework 8: Decomposition in Image Processing</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../lib/highlight/styles/github.min.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../lib/highlight/styles/github.min.css" />
+  </head>
+  <body>
     <div class="page-container">
-        <aside class="sidebar">
-            <h3>Problem Sets</h3>
-            <nav>
-                <ul>
-                    <li><a href="v1pd.html">Homework 5</a></li>
-                    <li><a href="v2pd.html">Homework 7</a></li>
-                    <li><a href="v3pd.html" class="active">Homework 8</a></li>
-                    <li><a href="v4pd.html">Homework 9</a></li>
-                </ul>
-            </nav>
-        </aside>
-        <main class="content">
-            <header>
-                <h1>Homework 8: Decomposition in Image Processing</h1>
-                <nav class="toc-container">
-                    <h3>Table of Contents</h3>
-                    <ul id="toc"></ul>
-                </nav>
-            </header>
+      <aside class="sidebar">
+        <div>
+          <h3>Problem Sets</h3>
+          <nav>
+            <ul>
+              <li><a href="v1pd.html">Homework 5</a></li>
+              <li><a href="v2pd.html">Homework 7</a></li>
+              <li><a href="v3pd.html" class="active">Homework 8</a></li>
+              <li><a href="v4pd.html">Homework 9</a></li>
+            </ul>
+          </nav>
+        </div>
+        <a href="../index.html" class="sidebar-home-link">Go Home</a>
+      </aside>
+      <main class="content">
+        <header>
+          <h1>Homework 8: Decomposition in Image Processing</h1>
+          <nav class="toc-container">
+            <h3>Table of Contents</h3>
+            <ul id="toc"></ul>
+          </nav>
+        </header>
 
-            <div class="question" id="q1">
-                <h2>Understanding Scaled Tint Application</h2>
-                <p><strong>Background:</strong> In digital image processing, a common task is to apply a color tint. This question explores scaling a tint color by a factor and adding it to an original pixel color.</p>
-                <p><strong>Question:</strong> Imagine applying <code>tint_color = (100, 50, 200)</code> to an <code>original_color = (20, 30, 40)</code> with a scaling <code>factor = 0.5</code>. What is the calculation for the new <strong>Green</strong> channel value before clamping?</p>
-                <ol type="A">
-                    <li><code>(50 * 0.5) + 30</code></li>
-                    <li><code>(50 + 30) * 0.5</code></li>
-                    <li><code>50 * 0.5</code></li>
-                    <li><code>(100 * 0.5) + (50 * 0.5) + (200 * 0.5) + 30</code></li>
-                </ol>
-                <button class="toggle-feedback">Show Feedback</button>
-                <div class="feedback" style="display: none;">
-                    <p><strong>Correct Option:</strong> A</p>
-                    <p><strong>Justification:</strong> The problem requires scaling the tint's green channel (<code>50 * 0.5</code>) and then adding the original's green channel (<code>+ 30</code>).</p>
-                </div>
-            </div>
+        <div class="question" id="q1">
+          <h2>Understanding Scaled Tint Application</h2>
+          <p>
+            <strong>Background:</strong> In digital image processing, a common
+            task is to apply a color tint. This question explores scaling a tint
+            color by a factor and adding it to an original pixel color.
+          </p>
+          <p>
+            <strong>Question:</strong> Imagine applying
+            <code>tint_color = (100, 50, 200)</code> to an
+            <code>original_color = (20, 30, 40)</code> with a scaling
+            <code>factor = 0.5</code>. What is the calculation for the new
+            <strong>Green</strong> channel value before clamping?
+          </p>
+          <ol type="A">
+            <li><code>(50 * 0.5) + 30</code></li>
+            <li><code>(50 + 30) * 0.5</code></li>
+            <li><code>50 * 0.5</code></li>
+            <li><code>(100 * 0.5) + (50 * 0.5) + (200 * 0.5) + 30</code></li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Option:</strong> A</p>
+            <p>
+              <strong>Justification:</strong> The problem requires scaling the
+              tint's green channel (<code>50 * 0.5</code>) and then adding the
+              original's green channel (<code>+ 30</code>).
+            </p>
+          </div>
+        </div>
 
-            <div class="question" id="q2">
-                <h2>Decomposing Tint with Horizontal Brightness Fade</h2>
-                <p><strong>Task Context:</strong> You are writing a function <code>apply_tint_and_horizontal_fade(img, tint_color)</code>. It applies a <code>tint_color</code> to an image, but the intensity is scaled by a "horizontal fade coefficient". This coefficient is 0.0 on the left edge (making it black) and 1.0 on the right edge (making it the full tint color), transitioning linearly in between.</p>
-                <p><strong>Question:</strong> Recalling the principles of Problem Decomposition, select ALL helper functions that would be most logical and effective for implementing this function.</p>
-                <ol type="A">
-                    <li><code>calculate_horizontal_fade_coefficient(current_x, image_width) -> float</code>: Determines a scaling coefficient (0.0 to 1.0) based on horizontal position.</li>
-                    <li><code>clamp_and_scale_rgb_color(color, coefficient) -> tuple</code>: Applies a scaling coefficient to an RGB color and returns the new, clamped color.</li>
-                    <li><code>detect_edges_in_image(source_img, threshold) -> Image</code>: Processes an image to highlight edges.</li>
-                    <li><code>apply_tint_and_horizontal_fade(img_to_process, tint_to_apply) -> Image</code>: Orchestrates the entire process.</li>
-                    <li><code>get_original_pixel_rgb(source_image, x, y) -> tuple</code>: Retrieves the original RGB color of a pixel.</li>
-                    <li><code>create_blank_image(mode, size) -> Image</code>: Generates a new, empty PIL Image.</li>
-                    <li><code>calculate_all_pixel_colors_for_row(row_index, image_width, base_tint) -> list</code>: Computes final colors for all pixels in a single row.</li>
-                </ol>
-                <button class="toggle-feedback">Show Feedback</button>
-                <div class="feedback" style="display: none;">
-                    <p><strong>Correct Options:</strong> A, B</p>
-                    <p><strong>Reasoning:</strong></p>
-                    <ul>
-                        <li><strong>A is correct</strong> because it isolates the distinct mathematical step of calculating the tint strength based on horizontal position.</li>
-                        <li><strong>B is correct</strong> as it encapsulates the logic for applying the calculated coefficient to the tint color, including scaling each component and converting it back to a valid integer tuple.</li>
-                        <li><strong>C is incorrect</strong> because edge detection is unrelated to the task.</li>
-                        <li><strong>D is incorrect</strong> because a function cannot be a helper for itself.</li>
-                        <li><strong>E is incorrect</strong> because the problem requires scaling the tint color, not modifying the original pixel color.</li>
-                        <li><strong>F is incorrect</strong> because abstracting a single library call like <code>Image.new()</code> is too trivial for good decomposition.</li>
-                        <li><strong>G is incorrect</strong> because while plausible, it is a higher-level function that would itself use the more fundamental logic from options A and B.</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="question" id="q2">
+          <h2>Decomposing Tint with Horizontal Brightness Fade</h2>
+          <p>
+            <strong>Task Context:</strong> You are writing a function
+            <code>apply_tint_and_horizontal_fade(img, tint_color)</code>. It
+            applies a <code>tint_color</code> to an image, but the intensity is
+            scaled by a "horizontal fade coefficient". This coefficient is 0.0
+            on the left edge (making it black) and 1.0 on the right edge (making
+            it the full tint color), transitioning linearly in between.
+          </p>
+          <p>
+            <strong>Question:</strong> Recalling the principles of Problem
+            Decomposition, select ALL helper functions that would be most
+            logical and effective for implementing this function.
+          </p>
+          <ol type="A">
+            <li>
+              <code
+                >calculate_horizontal_fade_coefficient(current_x, image_width)
+                -> float</code
+              >: Determines a scaling coefficient (0.0 to 1.0) based on
+              horizontal position.
+            </li>
+            <li>
+              <code>clamp_and_scale_rgb_color(color, coefficient) -> tuple</code
+              >: Applies a scaling coefficient to an RGB color and returns the
+              new, clamped color.
+            </li>
+            <li>
+              <code>detect_edges_in_image(source_img, threshold) -> Image</code
+              >: Processes an image to highlight edges.
+            </li>
+            <li>
+              <code
+                >apply_tint_and_horizontal_fade(img_to_process, tint_to_apply)
+                -> Image</code
+              >: Orchestrates the entire process.
+            </li>
+            <li>
+              <code>get_original_pixel_rgb(source_image, x, y) -> tuple</code>:
+              Retrieves the original RGB color of a pixel.
+            </li>
+            <li>
+              <code>create_blank_image(mode, size) -> Image</code>: Generates a
+              new, empty PIL Image.
+            </li>
+            <li>
+              <code
+                >calculate_all_pixel_colors_for_row(row_index, image_width,
+                base_tint) -> list</code
+              >: Computes final colors for all pixels in a single row.
+            </li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Options:</strong> A, B</p>
+            <p><strong>Reasoning:</strong></p>
+            <ul>
+              <li>
+                <strong>A is correct</strong> because it isolates the distinct
+                mathematical step of calculating the tint strength based on
+                horizontal position.
+              </li>
+              <li>
+                <strong>B is correct</strong> as it encapsulates the logic for
+                applying the calculated coefficient to the tint color, including
+                scaling each component and converting it back to a valid integer
+                tuple.
+              </li>
+              <li>
+                <strong>C is incorrect</strong> because edge detection is
+                unrelated to the task.
+              </li>
+              <li>
+                <strong>D is incorrect</strong> because a function cannot be a
+                helper for itself.
+              </li>
+              <li>
+                <strong>E is incorrect</strong> because the problem requires
+                scaling the tint color, not modifying the original pixel color.
+              </li>
+              <li>
+                <strong>F is incorrect</strong> because abstracting a single
+                library call like <code>Image.new()</code> is too trivial for
+                good decomposition.
+              </li>
+              <li>
+                <strong>G is incorrect</strong> because while plausible, it is a
+                higher-level function that would itself use the more fundamental
+                logic from options A and B.
+              </li>
+            </ul>
+          </div>
+        </div>
 
-            <div class="question" id="q3">
-                <h2>Conceptual: Grayscale and Color Information</h2>
-                <p><strong>Background:</strong> The "color pop" effect converts an image to grayscale except for a specific region, which keeps its original color. This technique directs the viewer's attention to the colored area.</p>
-                <p><strong>Question:</strong> When converting a color pixel (R, G, B) to grayscale by averaging (i.e., <code>gray = (R+G+B)//3</code>), what information is primarily preserved versus lost?</p>
-                <ol type="A">
-                    <li>Preserves hue; loses brightness and saturation.</li>
-                    <li>Preserves saturation; loses hue and brightness.</li>
-                    <li>Preserves brightness (or luminance); loses specific hue and saturation (colorfulness).</li>
-                    <li>All information is lost; the resulting gray value has no direct relationship to the original.</li>
-                </ol>
-            </div>
+        <div class="question" id="q3">
+          <h2>Conceptual: Grayscale and Color Information</h2>
+          <p>
+            <strong>Background:</strong> The "color pop" effect converts an
+            image to grayscale except for a specific region, which keeps its
+            original color. This technique directs the viewer's attention to the
+            colored area.
+          </p>
+          <p>
+            <strong>Question:</strong> When converting a color pixel (R, G, B)
+            to grayscale by averaging (i.e., <code>gray = (R+G+B)//3</code>),
+            what information is primarily preserved versus lost?
+          </p>
+          <ol type="A">
+            <li>Preserves hue; loses brightness and saturation.</li>
+            <li>Preserves saturation; loses hue and brightness.</li>
+            <li>
+              Preserves brightness (or luminance); loses specific hue and
+              saturation (colorfulness).
+            </li>
+            <li>
+              All information is lost; the resulting gray value has no direct
+              relationship to the original.
+            </li>
+          </ol>
+        </div>
 
-            <div class="question" id="q4">
-                <h2>Decomposing Circular Color Pop Effect</h2>
-                <p><strong>Task Context:</strong> You are to design a function <code>apply_circular_color_pop(img, radius_ratio)</code>. It creates a copy of the image, calculates a circular region in the center, and converts all pixels *outside* this circle to grayscale, leaving the inside colored.</p>
-                <p><strong>Question:</strong> Recalling the principles of Problem Decomposition from Chapter 7, select ALL helper functions that would be most logical and effective for implementing this function.</p>
-                <ol type="A">
-                    <li><code>calculate_circle_properties(image_width, image_height, given_radius_ratio) -> tuple</code>: Computes and returns the circle's center coordinates and radius in pixels.</li>
-                    <li><code>convert_rgb_to_grayscale_rgb(original_color) -> tuple</code>: Takes an RGB tuple and returns its grayscale equivalent.</li>
-                    <li><code>is_inside_circle(px, py, center_x, center_y, radius) -> bool</code>: Determines if a pixel coordinate is inside the circle's boundary.</li>
-                    <li><code>process_entire_image_for_selective_color(source_img, style_choice) -> Image</code>: A high-level function that applies various selective color styles based on a string.</li>
-                    <li><code>get_image_metadata(image_object) -> dict</code>: Extracts metadata like camera settings from an image.</li>
-                    <li><code>apply_grayscale_to_pixel(image_to_modify, x_coord, y_coord) -> None</code>: Modifies a single pixel in an image to its grayscale equivalent in-place.</li>
-                    <li><code>copy_image_region(source_img, target_img, region_coords) -> None</code>: Copies a rectangular region from a source to a target image.</li>
-                </ol>
-                <button class="toggle-feedback">Show Feedback</button>
-                <div class="feedback" style="display: none;">
-                    <p><strong>Correct Options:</strong> A, B, C</p>
-                    <p><strong>Reasoning:</strong></p>
-                    <ul>
-                        <li><strong>A is correct</strong> because it encapsulates the setup logic for determining the circle's parameters.</li>
-                        <li><strong>B is correct</strong> because it handles the reusable color transformation task needed for pixels outside the circle.</li>
-                        <li><strong>C is correct</strong> as it addresses the core geometric condition for each pixel.</li>
-                        <li><strong>D is incorrect</strong> because it describes a higher-level function, not a helper for the one being built.</li>
-                        <li><strong>E is incorrect</strong> because image metadata is irrelevant to this visual filter task.</li>
-                        <li><strong>F is incorrect</strong> because modifying an image in-place is less flexible than returning a new color value (as option B does), which aligns better with the main function's approach.</li>
-                        <li><strong>G is incorrect</strong> because the effect is achieved by modifying pixels, not copying regions.</li>
-                    </ul>
-                </div>
-            </div>
-        </main>
+        <div class="question" id="q4">
+          <h2>Decomposing Circular Color Pop Effect</h2>
+          <p>
+            <strong>Task Context:</strong> You are to design a function
+            <code>apply_circular_color_pop(img, radius_ratio)</code>. It creates
+            a copy of the image, calculates a circular region in the center, and
+            converts all pixels *outside* this circle to grayscale, leaving the
+            inside colored.
+          </p>
+          <p>
+            <strong>Question:</strong> Recalling the principles of Problem
+            Decomposition from Chapter 7, select ALL helper functions that would
+            be most logical and effective for implementing this function.
+          </p>
+          <ol type="A">
+            <li>
+              <code
+                >calculate_circle_properties(image_width, image_height,
+                given_radius_ratio) -> tuple</code
+              >: Computes and returns the circle's center coordinates and radius
+              in pixels.
+            </li>
+            <li>
+              <code>convert_rgb_to_grayscale_rgb(original_color) -> tuple</code
+              >: Takes an RGB tuple and returns its grayscale equivalent.
+            </li>
+            <li>
+              <code
+                >is_inside_circle(px, py, center_x, center_y, radius) ->
+                bool</code
+              >: Determines if a pixel coordinate is inside the circle's
+              boundary.
+            </li>
+            <li>
+              <code
+                >process_entire_image_for_selective_color(source_img,
+                style_choice) -> Image</code
+              >: A high-level function that applies various selective color
+              styles based on a string.
+            </li>
+            <li>
+              <code>get_image_metadata(image_object) -> dict</code>: Extracts
+              metadata like camera settings from an image.
+            </li>
+            <li>
+              <code
+                >apply_grayscale_to_pixel(image_to_modify, x_coord, y_coord) ->
+                None</code
+              >: Modifies a single pixel in an image to its grayscale equivalent
+              in-place.
+            </li>
+            <li>
+              <code
+                >copy_image_region(source_img, target_img, region_coords) ->
+                None</code
+              >: Copies a rectangular region from a source to a target image.
+            </li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Options:</strong> A, B, C</p>
+            <p><strong>Reasoning:</strong></p>
+            <ul>
+              <li>
+                <strong>A is correct</strong> because it encapsulates the setup
+                logic for determining the circle's parameters.
+              </li>
+              <li>
+                <strong>B is correct</strong> because it handles the reusable
+                color transformation task needed for pixels outside the circle.
+              </li>
+              <li>
+                <strong>C is correct</strong> as it addresses the core geometric
+                condition for each pixel.
+              </li>
+              <li>
+                <strong>D is incorrect</strong> because it describes a
+                higher-level function, not a helper for the one being built.
+              </li>
+              <li>
+                <strong>E is incorrect</strong> because image metadata is
+                irrelevant to this visual filter task.
+              </li>
+              <li>
+                <strong>F is incorrect</strong> because modifying an image
+                in-place is less flexible than returning a new color value (as
+                option B does), which aligns better with the main function's
+                approach.
+              </li>
+              <li>
+                <strong>G is incorrect</strong> because the effect is achieved
+                by modifying pixels, not copying regions.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </main>
     </div>
     <script src="../lib/highlight/highlight.min.js"></script>
     <script src="../js/main.js"></script>
-</body>
+  </body>
 </html>

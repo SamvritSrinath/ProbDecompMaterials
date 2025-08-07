@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homework 6: Problem Decomposition</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../lib/highlight/styles/github.min.css" />
+  </head>
+  <body>
+    <div class="page-container">
+      <aside class="sidebar">
+        <div>
+          <h3>Problem Sets</h3>
+          <nav>
+            <ul>
+              <li><a href="v1pd.html">Homework 5</a></li>
+              <li><a href="v12pd.html" class="active">Homework 6</a></li>
+              <li><a href="v2pd.html">Homework 7</a></li>
+              <li><a href="v3pd.html">Homework 8</a></li>
+              <li><a href="v4pd.html">Homework 9</a></li>
+              <li><a href="finalexam.html">Final Exam</a></li>
+            </ul>
+          </nav>
+        </div>
+        <a href="../index.html" class="sidebar-home-link">Go Home</a>
+      </aside>
+      <main class="content">
+        <header>
+          <h1>Homework 6: Problem Decomposition</h1>
+          <nav class="toc-container">
+            <h3>Table of Contents</h3>
+            <ul id="toc"></ul>
+          </nav>
+        </header>
+
+        <div class="question" id="q1">
+          <h2>Problem Decomposition for Student Data Processing</h2>
+          <p>
+            <strong>Scenario:</strong> Consider that you’re a researcher doing
+            some analysis on the amount of coursework and the quality of grades.
+            You are given a list of dictionaries, where each dictionary
+            represents a student. Each student dictionary contains keys such as
+            'name' (string), 'major' (string), units (integer), and 'grades' (a
+            nested dictionary mapping course names (string) to letter grades
+            (string, e.g., 'A', 'B', 'C')). You need to write a program to:
+          </p>
+          <ul>
+            <li>Calculate the total units for all students.</li>
+            <li>
+              Find the average units for students in a specific major (e.g.,
+              "Computer Science").
+            </li>
+            <li>Identify all students who have a particular grade (‘A’ - ‘F’).</li>
+            <li>Determine which major has the highest average units.</li>
+          </ul>
+          <p>
+            <strong>Question:</strong> Consider decomposing this problem into
+            smaller, manageable functions. From the list below, select all the
+            functions that would be useful and align with good decomposition
+            principles for solving this problem.
+          </p>
+          <ol type="A">
+            <li>
+              <b
+                ><code>get_total_units(students_list)</code>: Takes the list of
+                students and returns the sum of all the units
+                collectively.</b
+              >
+            </li>
+            <li>
+              <b
+                ><code>calculate_major_average_units(students_list, major_name)</code>:
+                Takes the list of students and a major name, and returns the
+                average units for students in that major.</b
+              >
+            </li>
+            <li>
+              <b
+                ><code>find_students_with_grade(students_list, grade:str)</code>:
+                Takes the list of students, and a grade (‘A’ - ‘F’) and returns
+                a list of names of students who have that grade.</b
+              >
+            </li>
+            <li>
+              <code>calculate_total_students(student_list)</code>: Takes a
+              student_list and returns the total number of students in the list.
+            </li>
+            <li>
+              <b
+                ><code>find_highest_average_major(students_list)</code>: Takes
+                the list of students and returns the name of the major with the
+                highest average units.</b
+              >
+            </li>
+            <li>
+              <code>process_all_student_data(students_list)</code>: A single
+              function to perform all required calculations and printing.
+            </li>
+            <li>
+              <code>calculate_num_courses(student)</code>: Takes in a single
+              student and returns the total number of courses that a student
+              took.
+            </li>
+            <li>
+              <code>calculate_average_GPA(student)</code> Takes in a single
+              student and returns the average GPA Points by converting letter
+              grades into numbers between [0-4].
+            </li>
+          </ol>
+        </div>
+
+        <div class="question" id="q2">
+          <h2>
+            Identifying Decomposition Steps for Complex 2D List Processing
+          </h2>
+          <p>
+            <strong>Question:</strong> You are given a 2D list grid
+            representing a Square Matrix of integer values. You need to write a
+            function <code>analyze_grid(grid)</code> that performs three main
+            tasks:
+          </p>
+          <ul>
+            <li>Calculate the sum of all elements in the grid.</li>
+            <li>Find the maximum value in each row of the grid.</li>
+            <li>
+              Count the number of "encircled" elements. An "encircled" element
+              is defined as any element where all its direct neighbors (up,
+              down, left, and right) exist within the grid boundaries and have a
+              value strictly greater than the element itself. Elements on the
+              boundary or with fewer than 4 direct neighbors within the grid
+              cannot be encircled by this definition.
+            </li>
+          </ul>
+          <p>
+            The function should return a tuple containing the total sum, a list
+            of row maximums, and the count of encircled elements in that
+            specific order:
+            <code>(total_sum, [row_maximums], encircled_count)</code>.
+          </p>
+          <p>
+            Consider the principles of Problem Decomposition discussed in Chapter
+            7, particularly Sections 7.1, 7.4, 7.5, and 7.6. Which of the
+            following approaches or helper functions would be useful in creating
+            a well-decomposed solution for parts of this problem? (Select All)
+          </p>
+          <ol type="A">
+            <li>
+              Write a single function <code>analyze_grid</code> containing nested
+              loops to calculate the sum, find row maximums, and count
+              encircled elements all within the same function body.
+            </li>
+            <li>
+              <b
+                >Create a helper function <code>calculate_grid_sum(grid)</code>
+                that iterates through the grid and returns the total sum.</b
+              >
+            </li>
+            <li>
+              <b
+                >Create a helper function <code>find_row_maximum(row)</code>
+                that takes a list of numbers (a single row) and returns the
+                maximum value in that row. Assume the row is not empty.</b
+              >
+            </li>
+            <li>
+              <b
+                >Create a helper function
+                <code>is_element_encircled(grid, r, c)</code> that determines if
+                the element at (r, c) meets the definition of being encircled by
+                strictly larger neighbors.</b
+              >
+            </li>
+            <li>
+              <b
+                >Create a helper function
+                <code>get_neighbor_values(grid, r, c)</code> that returns a list
+                of the values of the direct neighbors for the element at (r, c),
+                handling boundary checks.</b
+              >
+            </li>
+            <li>
+              Create a function that modifies the input grid in place by setting
+              encircled elements to 0.
+            </li>
+            <li>
+              Create a helper function <code>find_minimum_value(grid)</code> that
+              finds the smallest element in the entire grid.
+            </li>
+            <li>
+              Create a function that modifies the input grid by replacing all
+              negative numbers with zero.
+            </li>
+            <li>
+              Create a helper function
+              <code>process_single_element(grid, r, c)</code> that performs
+              multiple checks and calculations for a single element, including
+              checking if it's encircled and adding its value to a running
+              total.
+            </li>
+            <li>
+              <b
+                >Create a helper function
+                <code>is_valid_coordinate(grid, r, c)</code> that checks for
+                whether or not a specified coordinate is found within the
+                dimensions of the grid.</b
+              >
+            </li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Options:</strong> B, C, D, E, J</p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="../lib/highlight/highlight.min.js"></script>
+    <script src="../js/main.js"></script>
+  </body>
+</html>

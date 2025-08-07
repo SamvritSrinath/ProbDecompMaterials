@@ -1,21 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Generate Table of Contents
+  // Generate Table of Contents with Suites
   const toc = document.getElementById('toc');
-  const questions = document.querySelectorAll('.question');
+  const mainContent = document.querySelector('.content');
 
-  if (toc && questions.length > 0) {
-    questions.forEach((question, index) => {
-      const title = question.querySelector('h2').textContent;
-      const id = `q${index + 1}`;
-      question.id = id;
+  if (toc && mainContent) {
+    const headings = mainContent.querySelectorAll(
+      'h2.suite-title, .question h2',
+    );
+    let currentSuiteUl = null;
 
-      const listItem = document.createElement('li');
-      const link = document.createElement('a');
-      link.textContent = title;
-      link.href = `#${id}`;
+    headings.forEach((heading, index) => {
+      const title = heading.textContent;
+      const id = `heading-${index + 1}`;
+      heading.parentElement.id = id;
 
-      listItem.appendChild(link);
-      toc.appendChild(listItem);
+      if (heading.classList.contains('suite-title')) {
+        const suiteLi = document.createElement('li');
+        suiteLi.innerHTML = `<strong>${title}</strong>`;
+        currentSuiteUl = document.createElement('ul');
+        suiteLi.appendChild(currentSuiteUl);
+        toc.appendChild(suiteLi);
+      } else {
+        const questionLi = document.createElement('li');
+        const link = document.createElement('a');
+        link.textContent = title;
+        link.href = `#${id}`;
+        questionLi.appendChild(link);
+
+        if (currentSuiteUl) {
+          currentSuiteUl.appendChild(questionLi);
+        } else {
+          toc.appendChild(questionLi);
+        }
+      }
     });
   }
 
@@ -25,17 +42,17 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const feedbackDiv = button.nextElementSibling;
       if (feedbackDiv && feedbackDiv.classList.contains('feedback')) {
-        if (feedbackDiv.style.display === 'none') {
-          feedbackDiv.style.display = 'block';
-          button.textContent = 'Hide Feedback';
-        } else {
-          feedbackDiv.style.display = 'none';
-          button.textContent = 'Show Feedback';
-        }
+        const isHidden =
+          feedbackDiv.style.display === 'none' ||
+          feedbackDiv.style.display === '';
+        feedbackDiv.style.display = isHidden ? 'block' : 'none';
+        button.textContent = isHidden ? 'Hide Feedback' : 'Show Feedback';
       }
     });
   });
 
   // Initialize Highlight.js
-  hljs.highlightAll();
+  if (typeof hljs !== 'undefined') {
+    hljs.highlightAll();
+  }
 });

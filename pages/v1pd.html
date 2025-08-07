@@ -47,11 +47,11 @@
           <p>Currently the existing pipeline looks like the code below.</p>
           <pre><code class="language-python">
 def data_pipeline():
-    # Read from a file 
+    # Read from a file
     with open("data.txt", "r") as data_file:
         lines = data_file.readlines()
     
-    # Process the data 
+    # Process the data
     student_data = []
     for line in lines:
         parts = line.strip().split(",")
@@ -71,72 +71,42 @@ def data_pipeline():
         print(name)
                 </code></pre>
           <p>
-            In Chapter 7, especially in Sections 7.1 and 7.4, you learned about
-            breaking big problems into smaller, manageable parts—this is called
-            Problem Decomposition (or Top-Down Design). It helps make your code
-            easier to read, reuse, and fix.
-          </p>
-          <p>
-            <strong>Question:</strong> Take a look at the code snippet above.
-            What are some problems in the code that could be solved by breaking
-            it up into smaller parts (if anything)? (Select All)
+            <strong>Question:</strong> Based on the principles of Problem
+            Decomposition, what are the problems with the code snippet above?
+            (Select All)
           </p>
           <ul>
-            <li>It does too many different things in one function</li>
+            <li><b>It does too many different things in one function</b></li>
             <li>It calls too many leaf functions from our codebase</li>
             <li>
               The function should both print and return the results (not just
               print them)
             </li>
-            <li>It’s hard to reuse any of the code in other places</li>
+            <li><b>It’s hard to reuse any of the code in other places</b></li>
             <li>None — it’s already written in a clear, reusable way</li>
           </ul>
         </div>
 
         <div class="question" id="q2">
           <h2>Decomposing the Data Pipeline</h2>
-          <p>Here is the same code examined in a previous question:</p>
-          <pre><code class="language-python">
-def data_pipeline():
-    # Read from a file 
-    with open("data.txt", "r") as data_file:
-        lines = data_file.readlines()
-    
-    # Process the data 
-    student_data = []
-    for line in lines:
-        parts = line.strip().split(",")
-        if len(parts) == 2:
-            student_data.append((parts[0], parts[1]))
-
-    # Filter CS students
-    cs_students = []
-    cse_majors = ["Computer Science", "Computer Engineering"]
-    for student in student_data:
-        if student[1] in cse_majors:
-            cs_students.append(student[0])
-
-    # Print the result directly
-    print("Students in CS-related majors:")
-    for name in cs_students:
-        print(name)
-                </code></pre>
           <p>
-            You redesign the code so that “data_pipeline” is now a parent
-            function. That function calls a function “read_from_file(file_name)”
-            that returns the lines of the file as a list. It then passes that
-            list to the “process_the_data(lines)” function that returns a list
-            of tuples which contain (name, major). Next, you want to call a
-            function that will filter out the names of just the students who are
-            in CS majors (the names of “CS majors” can vary depending on your
-            definition of a CS majors). (After you call the filter function,
-            you’ll have this parent function print the names of the students who
-            are CS majors.) Which function signature is likely the best?
+            You redesign the code from the previous question so that
+            “data_pipeline” is now a parent function. That function calls a
+            function “read_from_file(file_name)” that returns the lines of the
+            file as a list. It then passes that list to the
+            “process_the_data(lines)” function that returns a list of tuples
+            which contain (name, major). Next, you want to call a function that
+            will filter out the names of just the students who are in CS majors
+            (the names of “CS majors” can vary). After you call the filter
+            function, the parent function will print the names of the students.
+            Which function signature is likely the best?
           </p>
           <ol type="A">
             <li><code>filter()</code></li>
             <li><code>filter(student_data)</code></li>
-            <li><code>filter(student_data, cse_majors)</code></li>
+            <li>
+              <b><code>filter(student_data, cse_majors)</code></b>
+            </li>
             <li><code>filter(student_data, cse_majors, names)</code></li>
           </ol>
         </div>
@@ -144,26 +114,20 @@ def data_pipeline():
         <div class="question" id="q3">
           <h2>Processing Project Tasks</h2>
           <p>
-            <strong>Scenario:</strong> Imagine that you’re an engineer at a
-            company and are given a dictionary where keys are project names
-            (strings) and values are lists of tasks for that project. Each task
-            is represented as a tuple containing the task name (string), its
-            status ("completed" or "incomplete" - string), and its priority
-            (integer, higher number means higher priority). You need to create a
-            summary report: a dictionary in which keys are project names and
-            values are dictionaries containing the count of "completed" tasks
-            and the highest priority of an "incomplete" task for that project.
-            If there are no incomplete tasks in a project, the highest
-            incomplete priority should be 0.
+            <strong>Scenario:</strong> You are given a dictionary where keys are
+            project names and values are lists of tasks. Each task is a tuple:
+            <code>(task_name, status, priority)</code>. You need to create a
+            summary report: a new dictionary where keys are project names and
+            values are a summary dictionary containing
+            <code
+              >{"completed_count": count, "highest_incomplete_priority":
+              priority}</code
+            >.
           </p>
           <p>
-            In Sections 7.4–7.6 of the textbook, you were guided through a
-            step-by-step approach to problem decomposition using a spell-check
-            program as an example. Using those same principles, we've provided
-            sample implementations of the project tracking problem below. Which
-            of the following Python programs best meets the requirements
-            outlined above, while also demonstrating the kind of structure and
-            decomposition we’re looking for in a solid solution?
+            <strong>Question:</strong> Which of the following Python programs
+            best meets the requirements, while also demonstrating good structure
+            and problem decomposition?
           </p>
           <hr />
           <p><strong>Option A:</strong></p>
@@ -173,185 +137,142 @@ def generate_project_summary_a(projects):
     for project_name, tasks in projects.items():
         completed_count = 0
         highest_incomplete_priority = 0
-        for task in tasks:
-            task_name, status, priority = task
+        for task_name, status, priority in tasks:
             if status == "completed":
                 completed_count += 1
             elif status == "incomplete":
                 if priority > highest_incomplete_priority:
                     highest_incomplete_priority = priority
-        summary[project_name] = {"completed_count": completed_count, "highest_incomplete_priority": highest_incomplete_priority}
+        summary[project_name] = {
+            "completed_count": completed_count,
+            "highest_incomplete_priority": highest_incomplete_priority
+        }
     return summary
                 </code></pre>
           <hr />
-          <p><strong>Option B:</strong></p>
+          <p>
+            <b><strong>Option B:</strong></b>
+          </p>
           <pre><code class="language-python">
-def generate_project_summary_c(projects):
-    summary = {}
-    for project_name, tasks in projects.items():
-        completed_count = count_completed_tasks(tasks)
-        highest_incomplete_priority = find_highest_incomplete_priority(tasks)
-        summary[project_name] = {"completed_count": completed_count, "highest_incomplete_priority": highest_incomplete_priority}
-    return summary
-
 def count_completed_tasks(tasks):
-    count = 0
-    for task in tasks:
-        if task[1] == "completed":
-            count += 1
-    return count
+    return sum(1 for task in tasks if task[1] == "completed")
 
 def find_highest_incomplete_priority(tasks):
     highest_priority = 0
     for task in tasks:
-        if task[1] == "incomplete":
-            if task[2] > highest_priority:
-                highest_priority = task[2]
+        if task[1] == "incomplete" and task[2] > highest_priority:
+            highest_priority = task[2]
     return highest_priority
+
+def generate_project_summary_c(projects):
+    summary = {}
+    for project_name, tasks in projects.items():
+        summary[project_name] = {
+            "completed_count": count_completed_tasks(tasks),
+            "highest_incomplete_priority": find_highest_incomplete_priority(tasks)
+        }
+    return summary
                 </code></pre>
           <hr />
           <p><strong>Option C:</strong></p>
           <pre><code class="language-python">
+def process_tasks_and_summarize(tasks):
+    completed = [t for t in tasks if t[1] == "completed"]
+    incomplete_priorities = [t[2] for t in tasks if t[1] == "incomplete"]
+    
+    completed_count = len(completed)
+    highest_prio = max(incomplete_priorities) if incomplete_priorities else 0
+    
+    return {"completed_count": completed_count, "highest_incomplete_priority": highest_prio}
+
 def generate_project_summary_d(projects):
     summary = {}
     for project_name, tasks in projects.items():
         summary[project_name] = process_tasks_and_summarize(tasks)
     return summary
-
-def process_tasks_and_summarize(tasks):
-    completed = []
-    incomplete_priorities = []
-    for task in tasks:
-        task_name, status, priority = task
-        if status == "completed":
-            completed.append(task)
-        elif status == "incomplete":
-            incomplete_priorities.append(priority)
-    
-    completed_count = len(completed)
-    highest_incomplete_priority = max(incomplete_priorities) if incomplete_priorities else 0
-    
-    return {"completed_count": completed_count, "highest_incomplete_priority": highest_incomplete_priority}
                 </code></pre>
         </div>
 
         <div class="question" id="q4">
           <h2>Decomposition Issues with a Mixed Item List</h2>
           <p>
-            <strong>Scenario:</strong> Consider the following Python function
-            that takes a list structured such that the first few elements are
-            integers, followed by some strings, and then some tuples. The
-            function is intended to perform several operations based on this
-            known structure:
-          </p>
-          <ul>
-            <li>
-              Calculate the sum of the first <code>n_integers</code> elements
-              (which are guaranteed to be integers).
-            </li>
-            <li>
-              Create a new list containing all strings from the next
-              <code>n_strings</code> elements (which are guaranteed to be
-              strings) that have a length greater than 5.
-            </li>
-            <li>
-              Count how many tuples in the remaining
-              <code>n_tuples</code> elements (which are guaranteed to be tuples)
-              contain at least one negative number.
-            </li>
-            <li>Print all the results.</li>
-          </ul>
-          <p>
-            The function signature is
-            <code
-              >process_structured_list(data, n_integers, n_strings,
-              n_tuples)</code
-            >.
+            <strong>Scenario:</strong> A function receives a list,
+            <code>data</code>, containing integers, then strings, then tuples.
+            The function must: 1) Sum the integers. 2) Filter for long strings.
+            3) Count tuples that contain a negative number. 4) Print all
+            results.
           </p>
           <pre><code class="language-python">
 def process_structured_list(data, n_integers, n_strings, n_tuples):
-    # Assume data list structure matches the counts
+    # Op 1: Sum integers
+    total_sum = sum(data[i] for i in range(n_integers))
 
-    # Operation 1: Sum integers
-    total_sum = 0
-    for i in range(n_integers):
-        total_sum += data[i]
+    # Op 2: Filter long strings
+    start_str = n_integers
+    end_str = start_str + n_strings
+    long_strings = [s for s in data[start_str:end_str] if len(s) > 5]
 
-    # Operation 2: Filter long strings
-    long_strings = []
-    start_string_index = n_integers
-    end_string_index = start_string_index + n_strings
-    for i in range(start_string_index, end_string_index):
-        if len(data[i]) > 5:
-            long_strings.append(data[i])
-
-    # Operation 3: Count tuples with negatives
-    negative_tuple_count = 0
-    start_tuple_index = end_string_index
-    end_tuple_index = start_tuple_index + n_tuples
-    for i in range(start_tuple_index, end_tuple_index):
-        current_tuple = data[i]
-        has_negative = False
-        for element in current_tuple:
+    # Op 3: Count tuples with negatives
+    neg_tuple_count = 0
+    start_tuple = end_str
+    for i in range(start_tuple, start_tuple + n_tuples):
+        for element in data[i]:
             if element < 0:
-                has_negative = True
-                break
-        if has_negative:
-            negative_tuple_count += 1
+                neg_tuple_count += 1
+                break # count tuple only once
 
-    # Operation 4: Print results
+    # Op 4: Print results
     print(f"Sum of integers: {total_sum}")
     print(f"Long strings: {long_strings}")
-    print(f"Count of tuples with negatives: {negative_tuple_count}")
+    print(f"Count of tuples with negatives: {neg_tuple_count}")
                 </code></pre>
           <p>
             <strong>Question:</strong> Which of the following function
-            prototypes, when called from a main part of the program with the
-            original data list and appropriate counts, would be useful and align
-            with the problem decomposition approach that you saw in 7.4-7.7 for
-            solving the calculation and filtering parts of this problem? (Select
-            all that apply.)
+            prototypes would be most useful for decomposing the
+            <strong>calculation and filtering</strong> parts of this problem?
+            (Select all that apply.)
           </p>
           <ol type="A">
             <li>
-              <code>calculate_sum_of_integers(data, n_integers)</code>: Takes
-              the data list and the count of integers, and returns the sum of
-              the initial integer segment.
+              <b
+                ><code>calculate_sum_of_integers(data, n_integers)</code>:
+                Returns the sum of the initial integer segment.</b
+              >
             </li>
             <li>
-              <code>filter_strings_by_length(data, n_integers, n_strings)</code
-              >: Takes the data list, the integer count (to find the start of
-              strings), and the string count, and returns a new list with
-              strings longer than 5 characters from the string segment.
+              <b
+                ><code
+                  >filter_strings_by_length(data, n_integers, n_strings)</code
+                >: Returns a list of strings longer than 5 characters from the
+                string segment.</b
+              >
             </li>
             <li>
-              <code
-                >count_tuples_with_any_negative(data, n_integers, n_strings,
-                n_tuples)</code
-              >: Takes the data list and all three counts to find the tuple
-              segment, and returns the count of tuples that contain at least one
-              negative number.
+              <b
+                ><code
+                  >count_tuples_with_any_negative(data, n_integers, n_strings,
+                  n_tuples)</code
+                >: Returns the count of tuples that contain at least one
+                negative number.</b
+              >
             </li>
             <li>
-              <code
-                >process_structured_list_helper(data, n_integers, n_strings,
-                n_tuples)</code
-              >: Takes the full structured list and counts, and performs all
-              calculations and printing within this single function.
+              <code>process_structured_list_helper(...)</code>: Performs all
+              calculations and printing in a single helper.
             </li>
             <li>
-              <code>count_total_elements(data)</code>: Takes the data list and
-              returns the total number of elements.
+              <code>count_total_elements(data)</code>: Returns the total number
+              of elements in the list.
             </li>
             <li>
-              <code>check_single_tuple_for_negative(a_tuple)</code>: Takes a
-              single tuple and returns True if it contains a negative number,
-              False otherwise.
+              <b
+                ><code>check_single_tuple_for_negative(a_tuple)</code>: Returns
+                True if a single tuple contains a negative number.</b
+              >
             </li>
             <li>
               <code>get_sum_and_strings(data, n_integers, n_strings)</code>:
-              Takes the data list and counts for integers and strings, and
-              returns both the sum of integers and the list of long strings.
+              Returns both the sum of integers and the list of long strings.
             </li>
             <li>
               <code>check_len_string(string)</code>: Returns the length of the

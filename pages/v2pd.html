@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homework 7: Decomposition in AI Models</title>
+    <title>Homework 7: AI & Image Processing</title>
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../lib/highlight/styles/github.min.css" />
   </head>
@@ -25,62 +25,57 @@
       </aside>
       <main class="content">
         <header>
-          <h1>Homework 7: Decomposition in AI Models</h1>
+          <h1>Homework 7: AI & Image Processing</h1>
           <nav class="toc-container">
             <h3>Table of Contents</h3>
             <ul id="toc"></ul>
           </nav>
         </header>
 
+        <h2 class="suite-title">Question Suite: Simple AI Model</h2>
+
         <div class="question" id="q1">
           <h2>Understanding Constraints in Our Simple AI Model</h2>
           <p>
-            <strong>Scenario:</strong> When tackling complex challenges, like
-            those in Artificial Intelligence, understanding the structure and
-            rules of your data is crucial. You're working with a simple AI
-            classification model designed to predict 0 or 1. This model takes
-            input features, uses learned weights and a bias, and compares its
-            prediction to true labels. We define the components for processing
-            multiple data points:
+            <strong>Scenario:</strong> You're working with a simple AI
+            classification model designed to predict 0 or 1. We define its
+            components:
           </p>
           <ul>
             <li>
               <strong>Weights:</strong> A list of learned numbers, e.g.,
-              <code>[weight_1, weight_2, ..., weight_n]</code>.
+              <code>[weight_1, ..., weight_n]</code>.
             </li>
-            <li><strong>Bias:</strong> A single learned number.</li>
             <li>
-              <strong>Input Data (data_inputs):</strong> A list of lists, where
-              each inner list is the features for one data point, e.g.,
-              <code
-                >[[feature_1a, feature_2a, ...], [feature_1b, feature_2b, ...],
-                ...]</code
-              >. The number of features in each inner list must always match the
-              number of weights (n).
+              <strong>Input Data (data_inputs):</strong> A list of lists of
+              features. The number of features in each inner list must always
+              match the number of weights.
             </li>
             <li>
               <strong>True Labels (true_labels):</strong> A list containing the
-              known correct category (0 or 1) for each corresponding data point
-              in <code>data_inputs</code>, e.g.,
-              <code>[label_a, label_b, ...]</code>. This list must have the same
+              known correct category (0 or 1). This list must have the same
               length as <code>data_inputs</code>.
             </li>
           </ul>
           <p>
-            <strong>Question:</strong> There are two constraints included in the
-            above description. Why are these constraints important for our
-            simple model to work correctly? (Select ALL that apply)
+            <strong>Question:</strong> Why are these constraints important for
+            our simple model to work correctly? (Select ALL that apply)
           </p>
           <ol type="A">
             <li>
-              The number of features in each input data point must match the
-              number of weights so that we can correctly pair each feature with
-              its corresponding weight when calculating the weighted sum.
+              <b
+                >The number of features in each input data point must match the
+                number of weights so that we can correctly pair each feature
+                with its corresponding weight when calculating the weighted
+                sum.</b
+              >
             </li>
             <li>
-              The list of true labels must have the same length as the list of
-              input data points so that we have a known correct answer for every
-              data point we want to evaluate for.
+              <b
+                >The list of true labels must have the same length as the list
+                of input data points so that we have a known correct answer for
+                every data point we want to evaluate for.</b
+              >
             </li>
             <li>
               Having the same number of features and weights makes the model's
@@ -91,8 +86,11 @@
               computer.
             </li>
             <li>
-              If the list of true labels is shorter than the list of data
-              inputs, we wouldn't know the correct outcome for some data points.
+              <b
+                >If the list of true labels is shorter than the list of data
+                inputs, we wouldn't know the correct outcome for some data
+                points.</b
+              >
             </li>
           </ol>
           <button class="toggle-feedback">Show Feedback</button>
@@ -104,34 +102,18 @@
         <div class="question" id="q2">
           <h2>Decomposing Weighted Sum Calculation</h2>
           <p>
-            <strong>Scenario:</strong> The first step for our simple AI model to
-            process a single data point is calculating the weighted sum (z).
-            This involves taking the input features for that data point,
-            multiplying each feature by its corresponding weight, summing up all
-            these products, and then adding the bias. The formula for the
-            weighted sum (z) for a single data point with features
-            <code>[feature_1, ..., feature_n]</code>, weights
-            <code>[weight_1, ..., weight_n]</code>, and bias
-            <code>bias</code> is:
-          </p>
-          <p>
+            <strong>Scenario:</strong> The first step for our AI model to
+            process a single data point is calculating the weighted sum (z). The
+            formula is:
             <code
               >z = (feature_1 * weight_1) + ... + (feature_n * weight_n) +
               bias</code
-            >
+            >.
           </p>
           <p>
-            You need to write a Python function that takes the features for a
-            single data point (a list), the list of weights, and the bias, and
-            returns the calculated weighted sum (z).
-          </p>
-          <p>
-            <strong>Question:</strong> Consider the principles of Problem
-            Decomposition (Chapter 7). Which of the following helper function(s)
+            <strong>Question:</strong> Which of the following helper function(s)
             would be most useful and align with good decomposition practices for
-            solving just the task of calculating the weighted sum for a single
-            data point, assuming that this is the entirety of our task? (Select
-            ALL that apply)
+            this task? (Select ALL that apply)
           </p>
           <ol type="A">
             <li>
@@ -143,10 +125,11 @@
               numbers and returns their sum.
             </li>
             <li>
-              A function <code>calculate_dot_product(list1, list2)</code> that
-              takes two lists of the same length and returns the sum of their
-              element-wise products (e.g.,
-              <code>list1[0]*list2[0] + list1[1]*list2[1] + ...</code>).
+              <b
+                >A function
+                <code>calculate_dot_product(list1, list2)</code> that returns
+                the sum of their element-wise products.</b
+              >
             </li>
             <li>
               A function <code>add_bias(value, bias)</code> that takes a value
@@ -154,9 +137,8 @@
             </li>
             <li>
               A function
-              <code>process_single_input(input_features, weights, bias)</code>
-              that calculates the weighted sum, determines the prediction, and
-              calculates the loss for a single data point.
+              <code>process_single_input(features, weights, bias)</code> that
+              calculates the sum, prediction, and loss.
             </li>
           </ol>
           <button class="toggle-feedback">Show Feedback</button>
@@ -166,6 +148,104 @@
         </div>
 
         <div class="question" id="q3">
+          <h2>Testing calculate_accuracy for Model</h2>
+          <p>
+            <strong>Question:</strong> You are testing a Python function
+            <code>calculate_accuracy(predicted_labels, true_labels)</code>. The
+            function takes two lists of the same length (binary predictions and
+            true labels) and returns the accuracy as a float. Which set of test
+            cases provides the best minimal but diverse coverage?
+          </p>
+          <ul>
+            <li>
+              TC1: predicted = [1, 1], true = [1, 1] -> Expected: 1.0 (All
+              Correct)
+            </li>
+            <li>
+              TC2: predicted = [0, 0], true = [1, 1] -> Expected: 0.0 (All
+              Incorrect)
+            </li>
+            <li>
+              TC3: predicted = [1, 0], true = [1, 1] -> Expected: 0.5 (Mixed,
+              Simple)
+            </li>
+            <li>
+              TC4: predicted = [0, 1, 1, 0], true = [0, 1, 0, 1] -> Expected:
+              0.5 (Mixed, Longer)
+            </li>
+            <li>
+              TC5: predicted = [], true = [] -> Expected: 0.0 (Empty Lists)
+            </li>
+            <li>
+              TC6: predicted = [1], true = [1] -> Expected: 1.0 (Single Element,
+              Correct)
+            </li>
+            <li>
+              TC7: predicted = [0], true = [1] -> Expected: 0.0 (Single Element,
+              Incorrect)
+            </li>
+            <li>
+              TC8: predicted = [0, 0, 0], true = [0, 0, 0] -> Expected: 1.0
+              (Uniform Labels, All Correct)
+            </li>
+            <li>
+              TC9: predicted = [1, 1, 1], true = [0, 0, 0] -> Expected: 0.0
+              (Uniform Labels, All Incorrect)
+            </li>
+          </ul>
+          <ol type="A">
+            <li><b>Test cases: TC1, TC2, TC3, TC5, TC6</b></li>
+            <li>Test cases: TC1, TC2, TC3, TC4, TC5, TC6, TC7, TC8, TC9</li>
+            <li>Test cases: TC1, TC2, TC5, TC6, TC7</li>
+            <li>Test cases: TC3, TC4, TC6, TC7, TC8, TC9</li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Option: A</strong></p>
+            <p>
+              <strong>Feedback:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Option A (Test cases: TC1, TC2, TC3, TC5, TC6):</strong>
+                This set is a good representation of a minimal but diverse set.
+                It covers: All predictions correct (TC1), All predictions
+                incorrect (TC2), A simple mixed case (TC3), The empty list edge
+                case (TC5), A single element correct case (TC6). It captures the
+                core behaviors (all match, none match, some match, empty input,
+                single input) without being overly redundant.
+              </li>
+              <li>
+                <strong
+                  >Option B (Test cases: TC1, TC2, TC3, TC4, TC5, TC6, TC7, TC8,
+                  TC9):</strong
+                >
+                This set is thorough, but it is not minimal. It includes many
+                redundant cases (TC1 and TC8 are both all correct, TC2 and TC9
+                are both all incorrect, TC6 and TC7 are covered by TC1/TC2/TC3
+                principles but for single elements). The goal is minimal diverse
+                coverage.
+              </li>
+              <li>
+                <strong>Option C (Test cases: TC1, TC2, TC5, TC6, TC7):</strong>
+                This set is insufficient. While it covers all correct, all
+                incorrect, empty, and single element cases, it completely misses
+                testing any mixed results with more than one element (like TC3
+                or TC4).
+              </li>
+              <li>
+                <strong
+                  >Option D (Test cases: TC3, TC4, TC6, TC7, TC8, TC9):</strong
+                >
+                This set is insufficient. It includes mixed, single element, and
+                uniform label cases, but it crucially misses the empty list edge
+                case (TC5).
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="question" id="q4">
           <h2>Decomposing Prediction and Loss in a Simple AI Model</h2>
           <p>
             <strong>Summary of background from previous questions:</strong> When
@@ -182,63 +262,129 @@
             model takes a set of input values (called features) for an item. It
             uses its internal learned values (weights and a bias) to compute a
             single score. This score is then used to make the final prediction
-            (0 or 1). We want to see how "accurate" our model is by comparing
-            our "predictions" against the true labels. The components for our
-            linear model are:
+            (0 or 1). We want to see how “accurate” our model is by comparing
+            our “predictions” against the true labels (how we do that is listed
+            below).
+          </p>
+          <p>
+            <strong
+              >Let's reiterate what the components are for our linear model
+              (these are the same as what you’ve been working with in previous
+              questions):</strong
+            >
           </p>
           <ul>
             <li>
               <strong>Weights:</strong> A list of learned numbers, e.g.,
-              <code>[weight_1, ..., weight_n]</code>.
+              <code>[weight_1, weight_2, ..., weight_n]</code>.
             </li>
             <li>
               <strong>Bias:</strong> A single learned number, e.g.,
               <code>bias</code>.
             </li>
             <li>
-              <strong>Input Data (data_inputs):</strong> A list of lists where
-              each inner list is the features for one data point.
+              <strong>Input Data (data_inputs):</strong> A list of lists. Each
+              inner list represents the features for one data point (one item to
+              classify), e.g.,
+              <code
+                >[[feature_1a, feature_2a, ...], [feature_1b, feature_2b, ...],
+                ...]</code
+              >.
             </li>
             <li>
-              <strong>Constraint:</strong> The number of features must match the
-              number of weights.
+              <strong>Constraint:</strong> The number of features in each inner
+              list must always match the number of weights (n).
             </li>
             <li>
-              <strong>True Labels (true_labels):</strong> A list of the correct
-              category (0 or 1) for each data point.
+              <strong>True Labels (true_labels):</strong> A list containing the
+              known correct category (0 or 1) for each corresponding data point
+              in data_inputs, e.g., <code>[label_a, label_b, ...]</code>.
             </li>
             <li>
-              <strong>Constraint:</strong> This list must be the same length as
-              <code>data_inputs</code>.
+              <strong>Constraint:</strong> This list must have the same length
+              as data_inputs.
             </li>
           </ul>
           <p>
-            The core calculation is the weighted sum (z):
+            The core calculation the model performs for each data point is
+            computing a weighted sum (let's call it z). This involves
+            multiplying each feature of the data point by its corresponding
+            weight, summing these products, and finally adding the bias. The
+            formula for the weighted sum (z) for a single data point is:
             <code
-              >z = (feature_1 * weight_1) + ... + (feature_n * weight_n) +
-              bias</code
-            >.
+              >z = (feature_1 * weight_1) + (feature_2 * weight_2) + ... +
+              (feature_n * weight_n) + bias</code
+            >
           </p>
           <p>
-            <strong>New Info for this question:</strong> Based on this weighted
-            sum z, the model makes a prediction: If z > 0, predict 1. If z &lt;=
-            0, predict 0.
+            <strong>New Info for this question:</strong><br />
+            Based on this weighted sum z, the model makes a prediction using a
+            simple threshold rule:
           </p>
+          <ul>
+            <li>If z > 0, the model predicts 1.</li>
+            <li>If z <= 0, the model predicts 0.</li>
+          </ul>
+          <p><strong>Your Task:</strong></p>
           <p>
-            <strong>Your Task:</strong> Write a single Python function
-            <code>predict_all(weights, bias, data_inputs, true_labels)</code>
-            that processes every data point. For each, it must: 1. Calculate the
-            weighted sum (z). 2. Determine the binary prediction (0 or 1). After
-            processing all data points, the function must: 1. Calculate the
-            overall accuracy. 2. Collect all predictions into a list. The
-            function must return a tuple:
-            <code>(accuracy, [predictions])</code>.
+            Write a single Python function
+            <code>predict_all(weights, bias, data_inputs, true_labels)</code>.
+            This function needs to process every data point provided in
+            <code>data_inputs</code>. For each data point, it must:
+          </p>
+          <ol>
+            <li>
+              Calculate its weighted sum (z) using the features, weights, and
+              bias.
+            </li>
+            <li>
+              Determine its binary prediction (0 or 1) based on the z value and
+              the Prediction Rule.
+            </li>
+          </ol>
+          <p>
+            After processing all data points, the function must perform two
+            final steps:
+          </p>
+          <ol>
+            <li>
+              Calculate the overall accuracy of the model's predictions.
+              Accuracy is defined as the fraction of predictions that correctly
+              match the corresponding <code>true_labels</code>.<br /><code
+                >Accuracy = (Number of Correct Predictions) / (Total Number of
+                Data Points)</code
+              >
+            </li>
+            <li>
+              Collect all the individual predictions (0 or 1) into a list,
+              maintaining the original order corresponding to data_inputs.
+            </li>
+          </ol>
+          <p>The function must return a 2-element tuple containing:</p>
+          <ol>
+            <li>
+              The calculated accuracy (a floating-point number between 0.0 and
+              1.0).
+            </li>
+            <li>The list of all predictions made.</li>
+          </ol>
+          <p>
+            The return format should be:
+            <code
+              >(accuracy, [prediction_1, prediction_2, prediction_3, ...])</code
+            >
           </p>
           <p>
             <strong>Question:</strong> Recalling the principles of Problem
-            Decomposition, which of the following helper functions would be most
-            useful and align with good decomposition practices? (Select ALL that
-            apply)
+            Decomposition (perhaps from Chapter 7, specifically Sections 7.1,
+            7.4, 7.5, and 7.6), where large problems are broken down into
+            smaller, more manageable parts (often separate functions), consider
+            how you would best structure the Python code for the predict_all
+            function described above. Good decomposition makes code clearer,
+            easier to test, and more reusable. Which of the following approaches
+            or potential helper functions would be most useful and align with
+            good decomposition practices for solving this specific prediction
+            and accuracy calculation task? (Select ALL that apply)
           </p>
           <ol type="A">
             <li>
@@ -246,55 +392,37 @@
               everything.
             </li>
             <li>
-              Create a helper function
-              <code>calculate_weighted_sum(input_features, weights, bias)</code>
-              that returns the weighted sum (z) for a single data point.
+              <b
+                ><code
+                  >calculate_weighted_sum(input_features, weights, bias)</code
+                ></b
+              >
             </li>
             <li>
-              Create a helper function
-              <code>make_prediction(weighted_sum)</code> that takes a weighted
-              sum and returns the binary prediction.
+              <b><code>make_prediction(weighted_sum)</code></b>
             </li>
+            <li><code>calculate_loss(weighted_sum, true_label)</code></li>
+            <li><code>check_input_lengths(weights, data_inputs)</code></li>
             <li>
-              Create a helper function
-              <code>calculate_loss(weighted_sum, true_label)</code> that
-              computes how "wrong" a prediction was.
+              <b
+                ><code
+                  >calculate_accuracy(predicted_labels, actual_labels)</code
+                ></b
+              >
             </li>
+            <li><code>process_batch(batch_data, weights, bias)</code></li>
+            <li><code>update_weights(weights, error_signal)</code></li>
             <li>
-              Create a helper function
-              <code>check_input_lengths(weights, data_inputs)</code> to verify
-              feature and weight counts match.
-            </li>
-            <li>
-              Create a helper function
-              <code>calculate_accuracy(predicted_labels, actual_labels)</code>
-              that takes two lists and returns the accuracy score.
-            </li>
-            <li>
-              Create a helper function
-              <code>process_batch(batch_data, weights, bias)</code> to calculate
-              the weighted sum for a group of data points.
-            </li>
-            <li>
-              Create a helper function
-              <code>update_weights(weights, error_signal)</code> to modify model
-              weights.
-            </li>
-            <li>
-              Create a helper function
               <code>get_prediction_and_sum(input_features, weights, bias)</code>
-              that returns both the weighted sum and prediction as a tuple.
             </li>
-            <li>
-              Create a helper function
-              <code>print_info(index, features, z, prediction)</code> to print
-              details for each data point.
-            </li>
+            <li><code>print_info(index, features, z, prediction)</code></li>
           </ol>
           <button class="toggle-feedback">Show Feedback</button>
           <div class="feedback" style="display: none">
             <p><strong>Correct Options:</strong> B, C, F</p>
-            <p><strong>Reasoning:</strong></p>
+            <p>
+              <strong>Reasoning for Correct Options:</strong>
+            </p>
             <ul>
               <li>
                 <strong>B (calculate_weighted_sum):</strong> Isolates the core
@@ -312,6 +440,334 @@
                 of comparing all predictions to the true labels and computing
                 the accuracy metric. This clearly separates the per-item
                 processing from the final evaluation.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="suite-divider" />
+        <h2 class="suite-title">Question Suite: Grayscale + Vignette</h2>
+
+        <div class="question" id="q5">
+          <h2>Conceptual: Grayscale Conversion</h2>
+          <p>
+            <strong>Question:</strong> When converting a color image (composed
+            of Red, Green, and Blue channels per pixel) to grayscale using the
+            common averaging method, the primary goal is to represent the
+            pixel's overall brightness or intensity, effectively discarding its
+            color information. In this method, for each pixel, the original R,
+            G, and B values are averaged to produce a single numerical value,
+            let's call it gray_value. (Refer to concepts in Chapter 7 about
+            simplifying problem components and understanding their core
+            attributes). Why is this calculated gray_value then typically
+            assigned to all three R, G, and B channels of the corresponding
+            pixel in the output grayscale image? (Select the BEST explanation)
+          </p>
+          <ol type="A">
+            <li>
+              To ensure the output image file is not significantly smaller in
+              data size than the original color image.
+            </li>
+            <li>
+              <b
+                >Because standard digital image formats for color display (like
+                JPEG or PNG) expect three color channels (R,G,B). Setting all
+                three channels to the same gray_value is the standard way to
+                instruct the display system to render a shade of gray.</b
+              >
+            </li>
+            <li>
+              To make the resulting grayscale image appear brighter and more
+              vibrant than if only a single channel (e.g., just Red) was set to
+              gray_value and the others to 0.
+            </li>
+            <li>
+              This is merely an arbitrary convention; setting only the Red
+              channel to gray_value and the Green and Blue channels to 0 would
+              achieve the exact same visual grayscale effect for the human eye.
+            </li>
+            <li>
+              It serves as a triple-check mechanism to ensure that the averaging
+              calculation for the gray_value was performed correctly by applying
+              it multiple times.
+            </li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Option:</strong> B</p>
+          </div>
+        </div>
+
+        <div class="question" id="q6">
+          <h2>Debugging: Grayscale Calculation Error</h2>
+          <p>
+            <strong>Scenario:</strong> A student has written the following
+            Python function fragment using the PIL library, intending to convert
+            an (R,G,B) pixel to a grayscale tuple. However, when used, pixels
+            that should be light or mid-gray often turn out slightly darker.
+          </p>
+          <pre><code class="language-python">
+# Intended to return a (gray, gray, gray) tuple
+def convert_rgb_to_grayscale( pixel ) -> tuple[int, int, int]:
+    r, g, b = pixel
+    gray_component = r // 3 + g // 3 + b // 3
+    grayscale_pixel_tuple = (gray_component, gray_component, gray_component)
+    return grayscale_pixel_tuple
+                </code></pre>
+          <p>
+            <strong>Question:</strong> What is the most likely logical error
+            causing this darkening effect?
+          </p>
+          <ol type="A">
+            <li>
+              The <code>grayscale_pixel_tuple</code> is not being correctly
+              formed.
+            </li>
+            <li>
+              <b
+                >The integer division <code>//</code> is applied to each color
+                channel (r, g, b) individually before summation. For many
+                pixels, especially those with low channel values, r//3, g//3, or
+                b//3 will result in 0 due to truncation.</b
+              >
+            </li>
+            <li>
+              The R, G, B values should first be converted to floats before any
+              division.
+            </li>
+            <li>
+              The formula is missing a bias term that should be added to
+              gray_component.
+            </li>
+            <li>
+              The sum r//3 + g//3 + b//3 often results in values greater than
+              255, which are then implicitly clamped to black by PIL.
+            </li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Option: B</strong></p>
+            <p>
+              <strong>Reasoning for B:</strong> The correct way to calculate the
+              average for a grayscale component is (r + g + b) // 3. By
+              performing integer division on each component before summing (r//3
+              + g//3 + b//3), significant precision is lost due to truncation at
+              each step. For example, if (r,g,b) is (2,2,2), r//3 + g//3 + b//3
+              becomes 0 + 0 + 0 = 0. The correct average is (2+2+2)//3 = 6//3 =
+              2. This premature truncation will make most pixels much darker
+              than they should be.
+            </p>
+            <ul>
+              <li>
+                <strong>A is incorrect;</strong> the tuple formation from
+                gray_component is syntactically fine.
+              </li>
+              <li>
+                <strong
+                  >C, while potentially offering more precision if intermediate
+                  floats were used before the final integer conversion, isn't
+                  the primary logical error here.</strong
+                >
+                The main issue is the order of operations with integer division.
+              </li>
+              <li>
+                <strong>D is incorrect;</strong> standard averaging for
+                grayscale doesn't involve a bias term.
+              </li>
+              <li>
+                <strong>E is highly improbable;</strong> r, g, b are typically
+                0-255. r//3 etc., will be <= 85. Their sum will be <= 255.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="question" id="q7">
+          <h2>Decomposing a Selective Grayscale and Vignette Pipeline</h2>
+          <p>
+            <strong>Task:</strong> You are tasked with writing a Python function
+            <code
+              >apply_selective_grayscale_and_vignette(image,
+              color_darkness_threshold, vignette_strength_factor)</code
+            >
+            using the PIL library. The image is a PIL Image object. The function
+            should:
+          </p>
+          <ol>
+            <li>
+              <strong>Initialization:</strong> Create a new result_image of the
+              same size and mode as image.
+            </li>
+            <li>
+              <strong>Pixel-wise Processing:</strong> Iterate through each pixel
+              (x, y) of the image. For each pixel:
+              <ol type="a">
+                <li>Get its original (R, G, B) color values.</li>
+                <li>
+                  <strong>Color Assessment:</strong> Determine if the original
+                  (R,G,B) pixel is "dark" by calculating its perceived intensity
+                  (e.g., using an average or luminance formula) and comparing it
+                  to color_darkness_threshold.
+                </li>
+                <li>
+                  <strong>Base Color Selection:</strong>
+                  <ol type="i">
+                    <li>
+                      If the pixel is deemed "dark" (its intensity is less than
+                      color_darkness_threshold), convert its original (R,G,B) to
+                      a grayscale (gray, gray, gray) tuple. This grayscale tuple
+                      becomes the base_color for this pixel.
+                    </li>
+                    <li>
+                      If the pixel is not "dark," its original (R,G,B) tuple
+                      becomes the base_color.
+                    </li>
+                  </ol>
+                </li>
+                <li>
+                  <strong>Vignette Application:</strong>
+                  <ol type="i">
+                    <li>
+                      Calculate a vignette_darkening_scale (e.g., from 0.0 to
+                      1.0, where 1.0 is no darkening) for the current pixel (x,
+                      y). This scale should be 1.0 at the image center and
+                      decrease towards the edges, influenced by
+                      vignette_strength_factor.
+                    </li>
+                    <li>
+                      Apply this vignette_darkening_scale to each component of
+                      the base_color (e.g., final_R = base_R *
+                      vignette_darkening_scale).
+                    </li>
+                    <li>
+                      Ensure the resulting R, G, B values are integers and
+                      clamped to the [0, 255] range.
+                    </li>
+                  </ol>
+                </li>
+                <li>
+                  Set the pixel in result_image at (x, y) to these final,
+                  vignette-adjusted R, G, B values.
+                </li>
+              </ol>
+            </li>
+            <li><strong>Return:</strong> The result_image.</li>
+          </ol>
+          <p>
+            <strong>Question:</strong> Recalling the principles of Problem
+            Decomposition (Chapter 7, specifically Sections 7.1, 7.4, 7.5, and
+            7.6), which of the following potential helper functions would be
+            most effective and align with good decomposition practices for
+            structuring the
+            <code>apply_selective_grayscale_and_vignette</code> function?
+            (Select ALL that apply)
+          </p>
+          <ol type="A">
+            <li>
+              <b
+                ><code>calculate_pixel_intensity(r, g, b)</code>: Takes R,G,B
+                values and returns a single intensity score (e.g., average or
+                luminance).</b
+              >
+            </li>
+            <li>
+              <b
+                ><code>convert_rgb_to_grayscale_tuple(r, g, b)</code>: Takes
+                R,G,B and returns a (gray, gray, gray) integer tuple.</b
+              >
+            </li>
+            <li>
+              <b
+                ><code
+                  >calculate_vignette_scale(x, y, image_width, image_height,
+                  strength_factor)</code
+                >: Takes pixel coordinates, image dimensions, and strength, and
+                returns the vignette_darkening_scale (e.g., 0.0 to 1.0) for that
+                pixel.</b
+              >
+            </li>
+            <li>
+              <b
+                ><code
+                  >apply_scale_and_clamp_color(rgb_tuple, scale_factor)</code
+                >: Takes an (R,G,B) tuple and a scale factor, applies the scale
+                to each component, clamps them to [0,255], converts to integers,
+                and returns the new (R,G,B) tuple.</b
+              >
+            </li>
+            <li>
+              One monolithic function
+              <code
+                >process_pixel_for_selective_grayscale_vignette(original_r,
+                original_g, original_b, x, y, image_width, image_height,
+                color_darkness_threshold, vignette_strength_factor)</code
+              >
+              that performs all steps internally and returns the final (R,G,B)
+              tuple for a single pixel.
+            </li>
+            <li>
+              <code>load_image_from_disk(image_path_string)</code>: A function
+              to load an image from a file path.
+            </li>
+            <li>
+              <code>get_image_dimensions (image_pil)</code>: A function that
+              returns the width and height of a PIL image object.
+            </li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Options:</strong> A, B, C, D</p>
+            <p>
+              <strong>Reasoning for Correct Options:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>A (calculate_pixel_intensity):</strong> Isolates the
+                logic for determining how "dark" a color pixel is. This is a
+                distinct calculation used as a condition.
+              </li>
+              <li>
+                <strong>B (convert_rgb_to_grayscale_tuple):</strong>
+                Encapsulates the standard RGB to grayscale conversion for a
+                single pixel. Reusable and testable.
+              </li>
+              <li>
+                <strong>C (calculate_vignette_scale):</strong> Separates the
+                geometric calculation of the vignette falloff from the color
+                manipulation. This function deals with position and vignette
+                parameters.
+              </li>
+              <li>
+                <strong>D (apply_scale_and_clamp_color):</strong> Provides a
+                general utility for scaling color components and ensuring they
+                are valid. This can be used to apply the vignette scale and is
+                also useful for other brightness/contrast adjustments.
+              </li>
+            </ul>
+            <p>
+              <strong>Reasoning for Incorrect Options:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>E (Monolithic pixel processing function):</strong> While
+                this function processes a single pixel, it still combines
+                multiple distinct logical steps (intensity check, conditional
+                grayscaling, vignette scale calculation, color scaling and
+                clamping). Breaking these down further as in A, B, C, and D
+                leads to more modular and reusable components, aligning better
+                with strong decomposition. The main loop would call these
+                smaller helpers.
+              </li>
+              <li>
+                <strong>F (load_image_from_disk):</strong> The problem states
+                source_color_image_pil is already a PIL Image object, so disk
+                loading is not part of this specific function's decomposition.
+              </li>
+              <li>
+                <strong>G (get_image_dimensions):</strong> PIL Image objects
+                have image.width and image.height attributes (or image.size). A
+                separate helper function for this is usually unnecessary and too
+                trivial.
               </li>
             </ul>
           </div>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homework 8: Decomposition in Image Processing</title>
+    <title>Homework 8: Image Processing Effects</title>
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../lib/highlight/styles/github.min.css" />
   </head>
@@ -25,222 +25,817 @@
       </aside>
       <main class="content">
         <header>
-          <h1>Homework 8: Decomposition in Image Processing</h1>
+          <h1>Homework 8: Image Processing Effects</h1>
           <nav class="toc-container">
             <h3>Table of Contents</h3>
             <ul id="toc"></ul>
           </nav>
         </header>
 
+        <h2 class="suite-title">Question Suite: Background Tinting</h2>
+
         <div class="question" id="q1">
           <h2>Understanding Scaled Tint Application</h2>
           <p>
-            <strong>Background:</strong> In digital image processing, a common
-            task is to apply a color tint. This question explores scaling a tint
-            color by a factor and adding it to an original pixel color.
+            <strong>Background:</strong> In digital image processing, we often
+            want to artistically alter images. This can involve applying a
+            global color tint to shift the mood or selectively adjusting
+            brightness to draw attention to certain areas. This suite explores
+            applying a uniform color tint and then modulating the brightness of
+            this tint across the image using a horizontally-generated scaling
+            factor, creating a gradient effect from one side of the image to the
+            other.
           </p>
           <p>
-            <strong>Question:</strong> Imagine applying
+            <strong>Question:</strong> Imagine you are applying a
             <code>tint_color = (100, 50, 200)</code> to an
-            <code>original_color = (20, 30, 40)</code> with a scaling
-            <code>factor = 0.5</code>. What is the calculation for the new
+            <code>original_color = (20, 30, 40)</code>. Instead of completely
+            replacing the original_color, you want to create a new color where
+            each channel of the tint_color is scaled by a given factor (ranging
+            from 0.0 to 1.0), and then this scaled tint is added to the
+            original_color, ensuring the final channel values are clamped
+            between 0 and 255. If <code>tint_color = (100, 50, 200)</code>,
+            <code>original_color = (20, 30, 40)</code>, and
+            <code>factor = 0.5</code>, what is the calculation for the new
             <strong>Green</strong> channel value before clamping?
           </p>
           <ol type="A">
-            <li><code>(50 * 0.5) + 30</code></li>
+            <li>
+              <b><code>(50 * 0.5) + 30</code></b>
+            </li>
             <li><code>(50 + 30) * 0.5</code></li>
             <li><code>50 * 0.5</code></li>
-            <li><code>(100 * 0.5) + (50 * 0.5) + (200 * 0.5) + 30</code></li>
+            <li>
+              <code>(100 * 0.5) + (50 * 0.5) + (200 * 0.5) + 30</code>
+            </li>
           </ol>
           <button class="toggle-feedback">Show Feedback</button>
           <div class="feedback" style="display: none">
             <p><strong>Correct Option:</strong> A</p>
             <p>
-              <strong>Justification:</strong> The problem requires scaling the
-              tint's green channel (<code>50 * 0.5</code>) and then adding the
-              original's green channel (<code>+ 30</code>).
+              <strong>Justification:</strong>
             </p>
-          </div>
-        </div>
-
-        <div class="question" id="q2">
-          <h2>Decomposing Tint with Horizontal Brightness Fade</h2>
-          <p>
-            <strong>Task Context:</strong> You are writing a function
-            <code>apply_tint_and_horizontal_fade(img, tint_color)</code>. It
-            applies a <code>tint_color</code> to an image, but the intensity is
-            scaled by a "horizontal fade coefficient". This coefficient is 0.0
-            on the left edge (making it black) and 1.0 on the right edge (making
-            it the full tint color), transitioning linearly in between.
-          </p>
-          <p>
-            <strong>Question:</strong> Recalling the principles of Problem
-            Decomposition, select ALL helper functions that would be most
-            logical and effective for implementing this function.
-          </p>
-          <ol type="A">
-            <li>
-              <code
-                >calculate_horizontal_fade_coefficient(current_x, image_width)
-                -> float</code
-              >: Determines a scaling coefficient (0.0 to 1.0) based on
-              horizontal position.
-            </li>
-            <li>
-              <code>clamp_and_scale_rgb_color(color, coefficient) -> tuple</code
-              >: Applies a scaling coefficient to an RGB color and returns the
-              new, clamped color.
-            </li>
-            <li>
-              <code>detect_edges_in_image(source_img, threshold) -> Image</code
-              >: Processes an image to highlight edges.
-            </li>
-            <li>
-              <code
-                >apply_tint_and_horizontal_fade(img_to_process, tint_to_apply)
-                -> Image</code
-              >: Orchestrates the entire process.
-            </li>
-            <li>
-              <code>get_original_pixel_rgb(source_image, x, y) -> tuple</code>:
-              Retrieves the original RGB color of a pixel.
-            </li>
-            <li>
-              <code>create_blank_image(mode, size) -> Image</code>: Generates a
-              new, empty PIL Image.
-            </li>
-            <li>
-              <code
-                >calculate_all_pixel_colors_for_row(row_index, image_width,
-                base_tint) -> list</code
-              >: Computes final colors for all pixels in a single row.
-            </li>
-          </ol>
-          <button class="toggle-feedback">Show Feedback</button>
-          <div class="feedback" style="display: none">
-            <p><strong>Correct Options:</strong> A, B</p>
-            <p><strong>Reasoning:</strong></p>
             <ul>
               <li>
-                <strong>A is correct</strong> because it isolates the distinct
-                mathematical step of calculating the tint strength based on
-                horizontal position.
+                <b>A) Correct.</b> The problem states that "each channel of the
+                tint_color is scaled by a given factor" (so for Green, G_t *
+                factor which is 50 * 0.5) "and then this scaled tint is added to
+                the original_color" (so for Green, add G_o which is 30). This
+                gives (50 * 0.5) + 30.
               </li>
               <li>
-                <strong>B is correct</strong> as it encapsulates the logic for
-                applying the calculated coefficient to the tint color, including
-                scaling each component and converting it back to a valid integer
-                tuple.
+                <b>B) Incorrect.</b> This calculation averages the tint's green
+                channel and the original green channel, which is not what was
+                described by scaling the tint first and then adding.
               </li>
               <li>
-                <strong>C is incorrect</strong> because edge detection is
-                unrelated to the task.
+                <b>C) Incorrect.</b> This only scales the tint's green channel
+                but forgets to add the original pixel's green channel value.
               </li>
               <li>
-                <strong>D is incorrect</strong> because a function cannot be a
-                helper for itself.
-              </li>
-              <li>
-                <strong>E is incorrect</strong> because the problem requires
-                scaling the tint color, not modifying the original pixel color.
-              </li>
-              <li>
-                <strong>F is incorrect</strong> because abstracting a single
-                library call like <code>Image.new()</code> is too trivial for
-                good decomposition.
-              </li>
-              <li>
-                <strong>G is incorrect</strong> because while plausible, it is a
-                higher-level function that would itself use the more fundamental
-                logic from options A and B.
+                <b>D) Incorrect.</b> This sums all scaled components of the tint
+                color before adding the original green channel. The operation
+                should be per-channel.
               </li>
             </ul>
           </div>
         </div>
 
+        <div class="question" id="q2">
+          <h2>Code Writing: Uniform Color Tint</h2>
+          <p>
+            <strong>Task:</strong> Write a Python function
+            <code
+              >apply_uniform_tint(img: Image.Image, tint_color: tuple[int, int,
+              int]) -> Image.Image</code
+            >. This function takes a PIL Image object img, and a tint_color
+            tuple (e.g., (255, 0, 0) for red). It should create and return a new
+            PIL Image object result of the same dimensions and mode as img.
+            Every pixel in the result image must be set to the provided
+            tint_color.
+          </p>
+          <pre><code class="language-python">
+from PIL import Image
+
+def apply_uniform_tint(img, tint_color):
+    """
+    Creates a new image where every pixel is set to the tint_color.
+    Args:
+        img: The source PIL Image object.
+        tint_color: An (R, G, B) tuple for the uniform tint.
+    Returns:
+        A new PIL Image object uniformly tinted.
+    """
+    # Your code here: Iterate through each pixel and set its color in 'result' 
+    # Make sure you set up the loops and the result correctly!
+    # to 'tint_color'.
+    
+    return result
+                </code></pre>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <pre><code class="language-python">
+# Solution Code:
+from PIL import Image
+
+def apply_uniform_tint(img: Image.Image, tint_color: tuple[int, int, int]) -> Image.Image:
+    """
+    Creates a new image where every pixel is set to the tint_color.
+    Args:
+        img: The source PIL Image object.
+        tint_color: An (R, G, B) tuple for the uniform tint.
+    Returns:
+        A new PIL Image object uniformly tinted.
+    """
+    result = img.copy()
+    width, height = img.size
+
+    for x in range(width):
+        for y in range(height):
+            result.putpixel((x, y), tint_color)
+
+    return result
+                </code></pre>
+          </div>
+        </div>
+
         <div class="question" id="q3">
+          <h2>Code Writing: Horizontal Gradient Effect Mask (RGB)</h2>
+          <p>
+            <strong>Task:</strong> Write a Python function
+            <code
+              >generate_horizontal_rgb_gradient_mask(width: int, height: int) ->
+              Image.Image</code
+            >. This function takes integer dimensions width and height. It
+            should create and return a new 'RGB' PIL Image object. The pixels in
+            this image should create a visual horizontal gradient effect.
+          </p>
+          <ul>
+            <li>
+              Pixels on the leftmost edge (where x = 0) should be black, i.e.,
+              (0, 0, 0).
+            </li>
+            <li>
+              Pixels on the rightmost edge (where x = width - 1) should be
+              white, i.e., (255, 255, 255).
+            </li>
+            <li>
+              For any column x between these extremes, the pixel color (R, G, B)
+              should have R = G = B = intensity, where intensity linearly
+              transitions from 0 to 255 as x goes from 0 to width - 1.
+            </li>
+            <li>
+              The color should be constant vertically (i.e., for a given x, all
+              y coordinates have the same color).
+            </li>
+          </ul>
+          <p>
+            You'll need to calculate an intensity value for each column x. This
+            intensity should be 0 when x is 0, and 255 when x is width - 1. For
+            other x values, it should scale linearly. Remember to convert this
+            intensity to an integer before using it in the (R,G,B) tuple for
+            putpixel. Handle the case where width is 1 (in which case, pixels
+            could be, for example, all black (0,0,0) or all white (255,255,255)
+            – let's choose white (255,255,255) if width == 1).
+          </p>
+          <p>
+            <strong>Hints:</strong>
+          </p>
+          <ul>
+            <li>
+              Think about what linearly means. You’ll need to figure how far
+              “left” you are and scale that by 255.
+            </li>
+            <li>
+              Think about what you have to do “per column” for your masks, Hint:
+              All pixels in a given column should have the same intensity.
+            </li>
+            <li>
+              In most Homework Problems, you’ve seen the standard format of:
+              <pre><code>for x in range(width):
+    for y in range(height):
+        # do stuff</code></pre>
+              This question might involve some setup prior to going to the inner
+              loop. :D
+            </li>
+          </ul>
+          <p><strong>Sample Code:</strong></p>
+          <pre><code class="language-python">
+from PIL import Image
+
+def generate_horizontal_gradient_mask(width: int, height: int) -> Image.Image:
+    """
+    Generates an 'RGB' image with a horizontal black-to-white gradient.
+    Left edge (x=0) is black (0,0,0), right edge (x=width-1) is white (255,255,255).
+    Args:
+        width: The width of the image to generate.
+        height: The height of the image to generate.
+    Returns:
+        A new PIL Image object with the horizontal gradient.
+    """
+    result = Image.new('P', (width, height))
+
+    if width == 0 or height == 0: # Handle zero dimension edge case
+        return result # blank image
+        
+    if width == 1:
+        # Handle single-column case: make it all white
+        for y in range(height):
+            result.putpixel((0, y), (255, 255, 255))
+        return result
+
+    # Iterate x from 0 to width-1.
+    # For each x, calculate the 'intensity' value (0-255).
+    # Then, iterate y from 0 to height-1.
+    # Set result.putpixel((x, y), (intensity, intensity, intensity))
+
+    # YOUR CODE HERE
+
+    return result
+                </code></pre>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <pre><code class="language-python">
+# Solution Code:
+from PIL import Image
+
+def generate_horizontal_gradient_mask(width: int, height: int) -> Image.Image:
+    """
+    Generates an 'RGB' image with a horizontal black-to-white gradient.
+    Left edge (x=0) is black (0,0,0), right edge (x=width-1) is white (255,255,255).
+    Args:
+        width: The width of the image to generate.
+        height: The height of the image to generate.
+    Returns:
+        A new PIL Image object with the horizontal gradient.
+    """
+    result = Image.new('P', (width, height))
+
+    if width == 0 or height == 0: # Handle zero dimension edge case
+        return result
+
+    if width == 1:
+        # Handle single-column case: make it all white
+        for y in range(height):
+            result.putpixel((0, y), (255, 255, 255))
+        return result
+
+    for x in range(width):
+        # Calculate intensity: scales linearly from 0 at x=0 to 255 at x=width-1
+        intensity = int((x / (width - 1)) * 255)
+        
+        # Ensure intensity is clamped, though division should handle it if width > 1
+        intensity = max(0, min(255, intensity)) 
+        
+        pixel_color = (intensity, intensity, intensity)
+        for y in range(height):
+            result.putpixel((x, y), pixel_color)
+
+    return result
+                </code></pre>
+          </div>
+        </div>
+
+        <div class="question" id="q4">
+          <h2>Closed-Box Debugging: Tinted Image Color Anomaly</h2>
+          <p>
+            <strong>Scenario:</strong> You are testing a Python function
+            <code>apply_tint_with_horizontal_fade(img, base_tint_color)</code>
+            which is supposed to take an image img and a base_tint_color (an RGB
+            tuple). The function should apply the base_tint_color to the image,
+            but with a horizontal fade effect:
+          </p>
+          <ul>
+            <li>
+              The leftmost pixels of the image should be fully black (0,0,0).
+            </li>
+            <li>
+              The rightmost pixels of the image should be the full
+              base_tint_color.
+            </li>
+            <li>
+              Pixels in between should show a smooth transition in brightness
+              from black to the base_tint_color. For example, a pixel exactly in
+              the horizontal middle should appear as the base_tint_color at half
+              its intensity (e.g., if base_tint_color is (100, 200, 50), the
+              middle pixel should be (50, 100, 25)).
+            </li>
+          </ul>
+          <p>
+            <strong>Observed Problem:</strong> You use base_tint_color = (0, 0,
+            255) (pure blue).
+          </p>
+          <ul>
+            <li>The leftmost pixels are correctly black (0,0,0).</li>
+            <li>
+              The rightmost pixels, however, appear magenta (255, 0, 255)
+              instead of the expected pure blue (0,0,255).
+            </li>
+            <li>
+              Pixels in between transition smoothly from black to magenta.
+            </li>
+          </ul>
+          <p>
+            <strong>Question:</strong> You do not have access to the function's
+            source code. Based on these symptoms, what is the most likely cause
+            of this bug?
+          </p>
+          <ol type="A">
+            <li>
+              The function is incorrectly calculating the fade. Instead of
+              scaling from 0.0 to 1.0 (left to right), it's scaling from 0.5 to
+              1.0.
+            </li>
+            <li>
+              <b
+                >The function is correctly calculating the fade for the blue
+                channel but is also applying a full-intensity red channel
+                component to all pixels except those that are fully black on the
+                left.</b
+              >
+            </li>
+            <li>
+              The green channel of the base_tint_color is being incorrectly
+              processed, causing it to wrap around and affect the red channel.
+            </li>
+            <li>
+              The function is swapping the red and blue channels of the
+              base_tint_color internally before applying the fade.
+            </li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Option: B</strong></p>
+            <p>
+              <strong>Reasoning:</strong>
+            </p>
+            <ul>
+              <li>
+                <b>A) Incorrect.</b> If the scaling was from 0.5 to 1.0, the
+                leftmost pixels would not be black but rather the
+                base_tint_color at half intensity. Our problem states that the
+                leftmost pixels should be black.
+              </li>
+              <li>
+                <b>B) Correct.</b> The expected output for the rightmost pixels
+                with base_tint_color = (0,0,255) is (0,0,255). The observed
+                output is (255,0,255). This indicates that the blue channel
+                (255) is being applied correctly at the rightmost edge, but an
+                unexpected red channel (255) is also present. The green channel
+                remains 0 as expected. This strongly suggests that a red
+                component is being incorrectly added or set to full intensity
+                where it shouldn't be, specifically for the non-black parts of
+                the fade.
+              </li>
+              <li>
+                <b>C) Incorrect.</b> A green channel issue is unlikely to
+                manifest as a full-intensity red channel being added, especially
+                when the green component of the input base_tint_color is 0.
+                "Wrap around" is also not a standard behavior for simple
+                scaling.
+              </li>
+              <li>
+                <b>D) Incorrect.</b> If red and blue channels were swapped, the
+                base_tint_color = (0,0,255) would become (255,0,0). The
+                rightmost pixels would then be red (255,0,0), not magenta.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="question" id="q5">
+          <h2>Decomposing Tint with Horizontal Brightness Fade</h2>
+          <p>
+            <strong>Task Context:</strong> You are tasked with writing a main
+            Python function
+            <code
+              >apply_tint_and_horizontal_fade(img: Image.Image, tint_color:
+              tuple[int, int, int]) -> Image.Image</code
+            >. This function will apply tint_color to each pixel of the input
+            img. However, the intensity of the applied tint_color at each pixel
+            (x, y) will be scaled by a "horizontal fade coefficient". This
+            coefficient is 0.0 for pixels on the leftmost edge (x=0), making
+            them black (0,0,0). The coefficient is 1.0 for pixels on the
+            rightmost edge (x = width-1), making them the full tint_color. For
+            pixels in between, the coefficient transitions linearly. The
+            y-coordinate does not influence this coefficient. The final color
+            for a pixel at (x,y) with tint_color = (R_t, G_t, B_t) and a
+            calculated coeff (from 0.0 to 1.0) will be (int(R_t * coeff),
+            int(G_t * coeff), int(B_t * coeff)).
+          </p>
+          <p>
+            <strong>Question:</strong> Recalling the principles of Problem
+            Decomposition from Chapter 7 (breaking large problems into smaller,
+            more manageable, and reusable parts), select ALL helper functions
+            that would be most logical, effective, and at an appropriate level
+            of granularity for implementing apply_tint_and_horizontal_fade.
+          </p>
+          <ol type="A">
+            <li>
+              <b
+                ><code
+                  >def calculate_horizontal_fade_coefficient(current_x: int,
+                  image_width: int) -> float</code
+                >: Determines a scaling coefficient (0.0 to 1.0) based on a
+                pixel's horizontal position within the image's width.</b
+              >
+            </li>
+            <li>
+              <b
+                ><code
+                  >def clamp_and_scale_rgb_color(color: tuple[int, int, int],
+                  coefficient: float) -> tuple[int, int, int]</code
+                >: Applies a given scaling coefficient to an RGB color,
+                returning the new scaled RGB color (with components as integers
+                that are clamped(bounded) between 0-255).</b
+              >
+            </li>
+            <li>
+              <code
+                >def detect_edges_in_image(source_img: Image.Image, threshold:
+                int) -> Image.Image</code
+              >: Processes an image to identify and highlight edges where pixel
+              intensity changes sharply, returning a new image emphasizing these
+              edges.
+            </li>
+            <li>
+              <code
+                >def apply_tint_and_horizontal_fade(img_to_process: Image.Image,
+                tint_to_apply: tuple[int, int, int]) -> Image.Image</code
+              >: Orchestrates the entire process of applying a tinted horizontal
+              fade effect to an image and returning the result.
+            </li>
+            <li>
+              <code
+                >def get_original_pixel_rgb(source_image: Image.Image, x: int,
+                y: int) -> tuple[int, int, int]</code
+              >: Retrieves the original RGB color of a specific pixel from a
+              given source image.
+            </li>
+            <li>
+              <code
+                >def create_blank_image(mode: str, size: tuple[int, int]) ->
+                Image.Image</code
+              >: Generates a new, empty PIL Image with the specified dimensions
+              and color mode.
+            </li>
+            <li>
+              <code
+                >def calculate_all_pixel_colors_for_row(row_index: int,
+                image_width: int, base_tint: tuple[int, int, int]) ->
+                list[tuple[int, int, int]]</code
+              >: Computes the final RGB color values for all pixels within a
+              single specified row of the image, considering the horizontal fade
+              effect and the base tint color.
+            </li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Options:</strong> A, B</p>
+            <p>
+              <strong>Reasoning:</strong> The main task for
+              apply_tint_and_horizontal_fade involves iterating through each
+              pixel (or its coordinates) and performing two key conceptual steps
+              to determine its final color:
+            </p>
+            <ol>
+              <li>
+                Calculate a specific fade coefficient based on the pixel's
+                horizontal position.
+              </li>
+              <li>
+                Apply this coefficient to the provided tint_color to get the
+                pixel's final RGB values.
+              </li>
+            </ol>
+            <ul>
+              <li>
+                <b>A) calculate_horizontal_fade_coefficient: Correct.</b> This
+                function isolates the first crucial calculation: determining the
+                strength of the tint (the coefficient) based purely on its
+                horizontal position. This is a distinct mathematical step and
+                provides a necessary input for the subsequent color calculation.
+                It enhances modularity by separating the geometric scaling
+                logic.
+              </li>
+              <li>
+                <b>B) clamp_and_scale_rgb_components: Correct.</b> This function
+                isolates the second crucial calculation: taking a base color
+                triplet (the tint_color) and a numeric coefficient, then
+                applying that coefficient to each of the R, G, and B components
+                to produce the final, scaled color triplet.
+              </li>
+              <li>
+                <b>C) detect_edges_in_image: Incorrect.</b> Edge detection is a
+                common image processing task, but it's entirely unrelated to
+                applying a scaled tint with a horizontal fade as described in
+                this problem. This function does not contribute to the required
+                functionality.
+              </li>
+              <li>
+                <b
+                  >D) apply_tint_and_horizontal_fade: Incorrect (as a helper for
+                  itself).</b
+                >
+                This option describes the main function we are trying to
+                decompose. A function cannot be a helper for itself in this
+                context of breaking down its own internal logic.
+              </li>
+              <li>
+                <b
+                  >E) get_original_pixel_rgb: Incorrect (for implementing the
+                  described effect).</b
+                >
+                The problem statement specifies that the final pixel color is a
+                scaled version of the input tint_color, not a blend or
+                modification based on the original pixel's color from the input
+                img. Therefore, fetching the original pixel's color is not a
+                necessary step for calculating the final output pixel color as
+                per the problem's requirements.
+              </li>
+              <li>
+                <b
+                  >F) create_blank_image: Incorrect (as a key decomposition of
+                  the problem's unique logic).</b
+                >
+                While the main function will indeed need to create a new blank
+                image (e.g., using Image.new(img.mode, img.size)), abstracting
+                this single, standard PIL library call into its own helper
+                function is generally too trivial for problem decomposition. It
+                doesn't simplify the complex or unique parts of this specific
+                image effect problem.
+              </li>
+              <li>
+                <b
+                  >G) calculate_all_pixel_colors_for_row: Incorrect (for the
+                  most fundamental level of calculation decomposition relative
+                  to A and B).</b
+                >
+                While processing an image row by row is a valid iteration
+                strategy, and this function represents a plausible higher-level
+                structural decomposition, it's not as fundamental as A and B for
+                breaking down the core pixel value computation. Options A and B
+                represent more granular, foundational calculation steps.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="suite-divider" />
+        <h2 class="suite-title">Question Suite: Circular Color Pop</h2>
+
+        <div class="question" id="q6">
           <h2>Conceptual: Grayscale and Color Information</h2>
           <p>
-            <strong>Background:</strong> The "color pop" effect converts an
-            image to grayscale except for a specific region, which keeps its
-            original color. This technique directs the viewer's attention to the
-            colored area.
+            <strong>Background:</strong> A common artistic effect in image
+            processing is to convert an image to grayscale while keeping a
+            specific region in its original color. This technique, often called
+            "color pop" or "selective color," draws the viewer's attention to
+            the colored area. In this suite, we'll explore creating an effect
+            where a circular region in the center of an image retains its color,
+            while the rest of the image is turned into grayscale.
           </p>
           <p>
             <strong>Question:</strong> When converting a color pixel (R, G, B)
-            to grayscale by averaging (i.e., <code>gray = (R+G+B)//3</code>),
-            what information is primarily preserved versus lost?
+            to a grayscale pixel (gray, gray, gray), a common method is to
+            average the R, G, and B values to get the gray value (i.e., gray =
+            (R + G + B) // 3). Which of the following statements best describes
+            what information is primarily lost and what is primarily preserved
+            in this specific averaging-based grayscale conversion process?
           </p>
           <ol type="A">
-            <li>Preserves hue; loses brightness and saturation.</li>
-            <li>Preserves saturation; loses hue and brightness.</li>
             <li>
-              Preserves brightness (or luminance); loses specific hue and
-              saturation (colorfulness).
+              Primarily preserves the hue (dominant color) of the pixel;
+              primarily loses its brightness and saturation.
             </li>
             <li>
-              All information is lost; the resulting gray value has no direct
-              relationship to the original.
+              Primarily preserves the saturation (intensity of color) of the
+              pixel; primarily loses its hue and brightness.
+            </li>
+            <li>
+              <b
+                >Primarily preserves the overall brightness (or luminance) of
+                the pixel; primarily loses its specific hue and saturation
+                (colorfulness).</b
+              >
+            </li>
+            <li>
+              This process loses all information; the resulting gray value has
+              no direct relationship to the original R, G, B values.
             </li>
           </ol>
         </div>
 
-        <div class="question" id="q4">
-          <h2>Decomposing Circular Color Pop Effect</h2>
+        <div class="question" id="q7">
+          <h2>Closed-Box Debugging: Circular Color Pop Misalignment</h2>
           <p>
-            <strong>Task Context:</strong> You are to design a function
-            <code>apply_circular_color_pop(img, radius_ratio)</code>. It creates
-            a copy of the image, calculates a circular region in the center, and
-            converts all pixels *outside* this circle to grayscale, leaving the
-            inside colored.
+            <strong>Scenario:</strong> You are testing a Python function
+            <code>apply_circular_color_pop(img, radius_percentage)</code>. This
+            function is supposed to:
+          </p>
+          <ol>
+            <li>Determine the center of the image.</li>
+            <li>
+              Calculate a radius based on radius_percentage (e.g., if 50%,
+              radius is 0.5 * half the smaller image dimension).
+            </li>
+            <li>
+              Convert the entire image to grayscale, except for pixels within
+              the calculated circular area centered in the image, which should
+              retain their original color.
+            </li>
+          </ol>
+          <p>
+            <strong>Observed Problem:</strong> You provide an image that is 400
+            pixels wide and 300 pixels high. You set radius_percentage aiming
+            for a colored circle in the middle. The output image shows a partial
+            circular region in color, and the rest is grayscale, as expected.
+            However, the colored region is noticeably offset towards the
+            top-left corner of the image, instead of being perfectly centered.
+            The size of the circular region itself seems correct based on the
+            radius_percentage.
           </p>
           <p>
-            <strong>Question:</strong> Recalling the principles of Problem
-            Decomposition from Chapter 7, select ALL helper functions that would
-            be most logical and effective for implementing this function.
+            <strong>Question:</strong> You do not have access to the function's
+            source code. Based on these symptoms, what is the most likely cause
+            of this bug?
           </p>
           <ol type="A">
             <li>
-              <code
-                >calculate_circle_properties(image_width, image_height,
-                given_radius_ratio) -> tuple</code
-              >: Computes and returns the circle's center coordinates and radius
-              in pixels.
+              The grayscale conversion is making the image darker, shifting the
+              perceived center of brightness.
             </li>
             <li>
-              <code>convert_rgb_to_grayscale_rgb(original_color) -> tuple</code
-              >: Takes an RGB tuple and returns its grayscale equivalent.
+              The radius calculation is using the image width for both its
+              horizontal and vertical scaling, making the circle an ellipse.
+            </li>
+            <li>
+              <b
+                >The function is correctly calculating the geometric center
+                coordinates (e.g., img.width // 2, img.height // 2), but when
+                checking if a pixel (x,y) is inside the circle, it's mistakenly
+                comparing x and y against (0,0) as the circle's center.</b
+              >
+            </li>
+            <li>
+              The function calculates the center correctly, but the part of the
+              code that iterates through pixels starts from (center_x, center_y)
+              instead of (0,0), thus only processing the bottom-right quadrant
+              for color preservation.
+            </li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Option:</strong> C</p>
+            <p>
+              <strong>Justification:</strong>
+            </p>
+            <ul>
+              <li>
+                <b>A) Incorrect.</b> Grayscale conversion affects color, not the
+                geometric position of elements or how center coordinates are
+                determined.
+              </li>
+              <li>
+                <b>B) Incorrect.</b> If the circle became an ellipse, the shape
+                would be distorted. The problem states the "circular region
+                itself seems correct," implying it's still a circle, just
+                misplaced.
+              </li>
+              <li>
+                <b>C) Correct.</b> If the intended center of the circle (e.g.,
+                (200, 150) for a 400x300 image) is calculated correctly, but the
+                distance check for each pixel (x,y) incorrectly uses (0,0) as
+                the reference center (i.e., is_inside_circle(x, y, 0, 0,
+                calculated_radius)), then only pixels close to the origin (0,0)
+                would satisfy the "inside circle" condition. This would result
+                in a colored circular segment appearing in the top-left corner,
+                which matches the symptoms.
+              </li>
+              <li>
+                <b>D) Incorrect.</b> If iteration started from the center, only
+                one quadrant would be processed, but the region kept in color
+                would still be centered around the true center for those pixels
+                that are checked. The issue described is that the entire colored
+                circle is offset.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="question" id="q8">
+          <h2>Decomposing Circular Color Pop Effect</h2>
+          <p>
+            <strong>Task Context:</strong> You are to design a main Python
+            function
+            <code
+              >apply_circular_color_pop(img: Image.Image, radius_ratio: float)
+              -> Image.Image</code
+            >. This function should:
+          </p>
+          <ol>
+            <li>Create a result image, initially a copy of img.</li>
+            <li>
+              Determine the center coordinates of the image (center_x,
+              center_y).
+            </li>
+            <li>
+              Calculate the actual radius for the circular region. This radius
+              should be radius_ratio (a float, e.g., 0.25 for 25%) multiplied by
+              half of the smaller dimension of the image (i.e., 0.25 *
+              min(img.width, img.height)).
+            </li>
+            <li>
+              Iterate through each pixel (x,y) of the img.
+              <ol type="a">
+                <li>
+                  For each pixel, determine if it lies outside the calculated
+                  circular region (centered at center_x, center_y with radius).
+                </li>
+                <li>
+                  If the pixel is outside the circle, its corresponding pixel in
+                  the result image should be converted to its grayscale
+                  equivalent (e.g., R, G, and B values are all set to the
+                  average of the original R, G, B).
+                </li>
+                <li>
+                  If the pixel is inside or on the boundary of the circle, its
+                  color in the result image should remain its original color
+                  from img (which is already there since result started as a
+                  copy).
+                </li>
+              </ol>
+            </li>
+            <li>Return the result image.</li>
+          </ol>
+          <p>
+            <strong>Question:</strong> Recalling the principles of Problem
+            Decomposition from Chapter 7, select ALL helper functions that would
+            be most logical, effective, and at an appropriate level of
+            granularity for implementing apply_circular_color_pop.
+          </p>
+          <ol type="A">
+            <li>
+              <b
+                ><code
+                  >def calculate_circle_properties(image_width: int,
+                  image_height: int, given_radius_ratio: float) -> tuple[int,
+                  int, float]</code
+                >: Computes and returns the center x-coordinate, center
+                y-coordinate, and the actual radius (in pixels) for the circle
+                based on image dimensions and the provided ratio.</b
+              >
+            </li>
+            <li>
+              <b
+                ><code
+                  >def convert_rgb_to_grayscale_rgb(original_color: tuple[int,
+                  int, int]) -> tuple[int, int, int]</code
+                >: Takes an original (R,G,B) color tuple and returns a new
+                (R,G,B) tuple representing its grayscale version (e.g., by
+                averaging components).</b
+              >
+            </li>
+            <li>
+              <b
+                ><code
+                  >def is_inside_circle(px: int, py: int, center_x: int,
+                  center_y: int, radius: float) -> bool</code
+                >: Determines if a given pixel coordinate (px, py) falls inside
+                or on the boundary of a circle defined by its center coordinates
+                and radius.</b
+              >
             </li>
             <li>
               <code
-                >is_inside_circle(px, py, center_x, center_y, radius) ->
-                bool</code
-              >: Determines if a pixel coordinate is inside the circle's
-              boundary.
-            </li>
-            <li>
-              <code
-                >process_entire_image_for_selective_color(source_img,
-                style_choice) -> Image</code
+                >def process_entire_image_for_selective_color(source_img:
+                Image.Image, style_choice: str) -> Image.Image</code
               >: A high-level function that applies various selective color
-              styles based on a string.
-            </li>
-            <li>
-              <code>get_image_metadata(image_object) -> dict</code>: Extracts
-              metadata like camera settings from an image.
+              styles (e.g., "circular," "rectangular," "color-based") to an
+              image based on a style string.
             </li>
             <li>
               <code
-                >apply_grayscale_to_pixel(image_to_modify, x_coord, y_coord) ->
-                None</code
-              >: Modifies a single pixel in an image to its grayscale equivalent
-              in-place.
+                >def get_image_metadata(image_object: Image.Image) -> dict</code
+              >: Extracts and returns various metadata from an image file, such
+              as camera settings, date taken, and resolution, in a dictionary
+              format.
             </li>
             <li>
               <code
-                >copy_image_region(source_img, target_img, region_coords) ->
+                >def apply_grayscale_to_pixel(image_to_modify: Image.Image,
+                x_coord: int, y_coord: int) -> None</code
+              >: Modifies a single pixel at (x_coord, y_coord) in
+              image_to_modify directly to its grayscale equivalent. (Note: This
+              modifies in place).
+            </li>
+            <li>
+              <code
+                >def copy_image_region(source_img: Image.Image, target_img:
+                Image.Image, region_coords: tuple[int,int,int,int]) ->
                 None</code
-              >: Copies a rectangular region from a source to a target image.
+              >: Copies a rectangular region from a source image to a target
+              image.
             </li>
           </ol>
           <button class="toggle-feedback">Show Feedback</button>
@@ -249,34 +844,50 @@
             <p><strong>Reasoning:</strong></p>
             <ul>
               <li>
-                <strong>A is correct</strong> because it encapsulates the setup
-                logic for determining the circle's parameters.
+                <b>A) calculate_circle_properties: Correct.</b> This function
+                encapsulates the setup logic: determining the circle's actual
+                center coordinates and radius based on the image dimensions and
+                the input ratio. This is a distinct calculation step that
+                provides essential parameters for the main loop.
               </li>
               <li>
-                <strong>B is correct</strong> because it handles the reusable
-                color transformation task needed for pixels outside the circle.
+                <b>B) convert_rgb_to_grayscale_rgb: Correct.</b> This function
+                handles the specific task of taking an RGB color tuple and
+                returning its grayscale equivalent (as an RGB tuple, e.g., (avg,
+                avg, avg)). This operation is needed for pixels outside the
+                circle. It's a reusable color transformation.
               </li>
               <li>
-                <strong>C is correct</strong> as it addresses the core geometric
-                condition for each pixel.
+                <b>C) is_inside_circle: Correct.</b> This function addresses the
+                core geometric condition: determining if a pixel falls within
+                the specified circle. This is a distinct Boolean check used in
+                the conditional logic for each pixel.
               </li>
               <li>
-                <strong>D is incorrect</strong> because it describes a
-                higher-level function, not a helper for the one being built.
+                <b>D) process_entire_image_for_selective_color: Incorrect.</b>
+                This describes a much more generic and high-level function than
+                the one being decomposed. The target function
+                apply_circular_color_pop is more specific. This option would be
+                a consumer of functions like apply_circular_color_pop, not a
+                helper for it.
               </li>
               <li>
-                <strong>E is incorrect</strong> because image metadata is
-                irrelevant to this visual filter task.
+                <b>E) get_image_metadata: Incorrect.</b> Extracting EXIF data or
+                general image metadata is not relevant to the described task of
+                applying a visual filter based on geometry and color conversion.
               </li>
               <li>
-                <strong>F is incorrect</strong> because modifying an image
-                in-place is less flexible than returning a new color value (as
-                option B does), which aligns better with the main function's
-                approach.
+                <b>F) apply_grayscale_to_pixel: Incorrect.</b> While it relates
+                to grayscaling, its design (modifying an image in-place for a
+                single pixel and returning None) doesn't fit well with the
+                overall approach of the main function. Option B, which returns a
+                grayscale color tuple, is more aligned with calculating the new
+                value to be placed in result.
               </li>
               <li>
-                <strong>G is incorrect</strong> because the effect is achieved
-                by modifying pixels, not copying regions.
+                <b>G) copy_image_region: Incorrect.</b> The effect is achieved
+                by selectively modifying pixels to grayscale, not by copying
+                regions between images.
               </li>
             </ul>
           </div>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homework 9: Advanced Decomposition Scenarios</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../lib/highlight/styles/github.min.css" />
+  </head>
+  <body>
+    <div class="page-container">
+      <aside class="sidebar">
+        <h3>Problem Sets</h3>
+        <nav>
+          <ul>
+            <li><a href="v1pd.html">Homework 5</a></li>
+            <li><a href="v2pd.html">Homework 7</a></li>
+            <li><a href="v3pd.html">Homework 8</a></li>
+            <li><a href="v4pd.html" class="active">Homework 9</a></li>
+          </ul>
+        </nav>
+      </aside>
+      <main class="content">
+        <header>
+          <h1>Homework 9: Advanced Decomposition Scenarios</h1>
+          <nav class="toc-container">
+            <h3>Table of Contents</h3>
+            <ul id="toc"></ul>
+          </nav>
+        </header>
+
+        <div class="question" id="q1">
+          <h2>Decomposing Checkerboard Image Merge</h2>
+          <p>
+            <strong>Task Context:</strong> You are to design a main Python
+            function
+            <code
+              >apply_checkerboard_merge(img_top, img_bottom, square_size)</code
+            >. This function will merge two input images of the same size into a
+            result image using a checkerboard pattern. The logic is: for a pixel
+            at (px, py), calculate <code>grid_row = py // square_size</code> and
+            <code>grid_col = px // square_size</code>. If
+            <code>(grid_row + grid_col)</code> is even ("type 0"), the pixel
+            comes from <code>img_bottom</code>. If the sum is odd ("type 1"),
+            the pixel comes from <code>img_top</code>.
+          </p>
+          <p>
+            <strong>Question:</strong> Recalling the principles of Problem
+            Decomposition, and keeping in mind that helper functions should
+            encapsulate distinct, non-trivial pieces of logic (i.e., avoiding
+            one-line wrappers), select ALL helper functions that would be most
+            logical and effective for implementing this function.
+          </p>
+          <ol type="A">
+            <li>
+              <code
+                >initialize_output_canvas(width, height, color_mode) ->
+                Image</code
+              >: A general utility to create a new, blank PIL Image object.
+            </li>
+            <li>
+              <code>get_square_type(px, py, square_side_length) -> int</code>:
+              Calculates and returns an integer (0 or 1) indicating the
+              checkerboard square type.
+            </li>
+            <li>
+              <code
+                >get_pixel_rgb_color(source_image, x_coord, y_coord) ->
+                tuple</code
+              >: Retrieves the (R,G,B) color tuple of a pixel.
+            </li>
+            <li>
+              <code
+                >select_pixel_for_overlay(top_pixel_color, bottom_pixel_color,
+                square_type) -> tuple</code
+              >: Given pixel colors and a square type, selects and returns the
+              appropriate color.
+            </li>
+            <li>
+              <code>get_grid_indices_only(px, py, side_len) -> tuple</code>: A
+              partial helper that only calculates and returns the (grid_row,
+              grid_col) tuple.
+            </li>
+            <li>
+              <code
+                >is_top_leftmost_pixel_black_for_checkerboard(square_dim) ->
+                bool</code
+              >: A highly specific function that only checks the type of the
+              pixel at (0,0).
+            </li>
+            <li>
+              <code>merge_images_identically(image1, image2) -> Image</code>: A
+              function that combines two images by averaging their pixels.
+            </li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Options:</strong> B, D</p>
+            <p><strong>Reasoning:</strong></p>
+            <ul>
+              <li>
+                <strong>B is correct</strong> because it encapsulates the
+                non-trivial, multi-step logic specific to calculating the
+                checkerboard pattern type.
+              </li>
+              <li>
+                <strong>D is correct</strong> as it encapsulates a distinct
+                piece of conditional logic for choosing between two pixels,
+                which is more than a direct library call.
+              </li>
+              <li>
+                <strong>A and C are incorrect</strong> because they are
+                described as simple one-line wrappers for existing PIL library
+                calls (<code>Image.new()</code> and
+                <code>image.getpixel()</code>), making them too trivial for good
+                decomposition in this context.
+              </li>
+              <li>
+                <strong>E is incorrect</strong> because it's a "partial child
+                function"; Option B is more complete and useful as it performs
+                the full calculation needed.
+              </li>
+              <li>
+                <strong>F is incorrect</strong> as it's a "creative one-liner"
+                that is too specific and not a general-purpose helper for the
+                main task.
+              </li>
+              <li>
+                <strong>G is incorrect</strong> because it describes a
+                completely different and irrelevant image merging strategy.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="question" id="q2">
+          <h2>Building and Decomposing a Car Simulator</h2>
+          <p>
+            <strong>Scenario:</strong> You're building a turn-based car
+            simulator where a player can accelerate, brake, and turn. The car
+            has properties like speed, fuel, and direction, and must stay within
+            predefined road boundaries to reach a destination. The simulation
+            ends if the car runs out of fuel, crashes into a boundary, or
+            reaches the destination. The simulator must also display current
+            information like speed and fuel levels.
+          </p>
+          <p>
+            <strong>Question:</strong> Recalling the principles of Problem
+            Decomposition, which diagram best shows a balanced, top-down
+            decomposition for this simulator?
+          </p>
+          <ol type="A">
+            <li>
+              A diagram with broad functions like
+              <code>initialize_simulation_state</code>, and a
+              <code>main_game_thread</code> containing
+              <code>get_all_inputs</code>, <code>update_all_physics</code>, and
+              <code>draw_everything_to_screen</code>.
+            </li>
+            <li>
+              A diagram that is very flat, with a single
+              <code>simulation_engine_loop</code> containing many individual,
+              un-grouped actions like <code>display_car_speed</code>,
+              <code>apply_acceleration_rules</code>,
+              <code>check_if_fuel_is_zero</code>, etc.
+            </li>
+            <li>
+              A diagram showing a main <code>run_simulation</code> function that
+              calls helpers for <code>initialize_simulation</code> and a
+              <code>simulation_loop</code>. The loop further delegates to clear
+              sub-functions like <code>display_dashboard</code>,
+              <code>execute_player_command</code> (which is broken down
+              further), and <code>check_simulation_end_conditions</code> (also
+              broken down).
+            </li>
+            <li>
+              A diagram showing over-decomposition with confusingly deep
+              nesting, such as <code>check_win_lose</code> being a sub-function
+              of <code>consume_fuel</code>, which is under
+              <code>move_car</code>.
+            </li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Option:</strong> C</p>
+            <p><strong>Reasoning:</strong></p>
+            <ul>
+              <li>
+                <strong>A is incorrect</strong> because functions like
+                <code>initialize_everything</code> are too broad and hide
+                complexity.
+              </li>
+              <li>
+                <strong>B is incorrect</strong> because the diagram is too flat,
+                listing many small actions individually instead of grouping them
+                into logical helper functions.
+              </li>
+              <li>
+                <strong>C is correct</strong> as it shows a balanced
+                decomposition. It groups setup logic, and the main loop
+                delegates to clear helper functions for distinct, well-defined
+                tasks, promoting modularity.
+              </li>
+              <li>
+                <strong>D is incorrect</strong> as it demonstrates
+                over-decomposition with confusing nesting, leading to unclear
+                task relationships.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="question" id="q3">
+          <h2>Decomposition: Structuring the Daily Schedule Planner</h2>
+          <p>
+            <strong>Scenario:</strong> You're building a daily schedule planner
+            program where users can add tasks (description, start time,
+            duration), view the schedule, and remove tasks. The system must
+            prevent adding tasks that overlap in time.
+          </p>
+          <p>
+            <strong>Question:</strong> Which diagram best shows a top-down
+            decomposition for this planner, aiming for manageable functions with
+            distinct responsibilities?
+          </p>
+          <ol type="A">
+            <li>
+              A diagram with a single, large function
+              <code>process_all_user_actions_and_schedule_logic</code> that
+              handles everything.
+            </li>
+            <li>
+              A diagram where the main loop has large `if` blocks for each user
+              choice, with all logic (input, validation, conversion, conflict
+              check) performed inside those blocks rather than in separate
+              functions.
+            </li>
+            <li>
+              A diagram with a complex
+              <code>primary_command_interpreter_and_executor_function</code>
+              that parses a single line of text from the user and performs all
+              logic for all possible commands.
+            </li>
+            <li>
+              A diagram where a main loop calls
+              <code>handle_menu_selection</code>, which in turn delegates to
+              distinct "workflow" functions (e.g.,
+              <code>execute_add_new_task_workflow</code>). These workflows are
+              then further broken down into specific helpers like
+              <code>validate_and_parse_task_inputs</code> and
+              <code>check_for_time_conflict</code>.
+            </li>
+          </ol>
+          <button class="toggle-feedback">Show Feedback</button>
+          <div class="feedback" style="display: none">
+            <p><strong>Correct Option:</strong> D</p>
+            <p><strong>Reasoning:</strong></p>
+            <ul>
+              <li>
+                <strong>A and C are incorrect</strong> because their central
+                functions are too broad and complex, violating decomposition
+                principles.
+              </li>
+              <li>
+                <strong>B is incorrect</strong> because while it shows some
+                decomposition, it can be improved by adding another layer of
+                functions to separate processes like input, validation, and
+                execution.
+              </li>
+              <li>
+                <strong>D is correct</strong> as it shows a balanced, top-down
+                decomposition. The main function delegates to workflow
+                functions, which are then broken down into smaller helpers with
+                clear, single responsibilities.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="../lib/highlight/highlight.min.js"></script>
+    <script src="../js/main.js"></script>
+  </body>
+</html>

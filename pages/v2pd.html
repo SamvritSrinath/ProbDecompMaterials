@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework 7: Decomposition in AI Models</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../lib/highlight/styles/github.min.css">
+</head>
+<body>
+    <div class="page-container">
+        <aside class="sidebar">
+            <h3>Problem Sets</h3>
+            <nav>
+                <ul>
+                    <li><a href="v1pd.html">Homework 5</a></li>
+                    <li><a href="v2pd.html" class="active">Homework 7</a></li>
+                    <li><a href="v3pd.html">Homework 8</a></li>
+                    <li><a href="v4pd.html">Homework 9</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="content">
+            <header>
+                <h1>Homework 7: Decomposition in AI Models</h1>
+                <nav class="toc-container">
+                    <h3>Table of Contents</h3>
+                    <ul id="toc"></ul>
+                </nav>
+            </header>
+
+            <div class="question" id="q1">
+                <h2>Understanding Constraints in Our Simple AI Model</h2>
+                <p><strong>Scenario:</strong> When tackling complex challenges, like those in Artificial Intelligence, understanding the structure and rules of your data is crucial. You're working with a simple AI classification model designed to predict 0 or 1. This model takes input features, uses learned weights and a bias, and compares its prediction to true labels. We define the components for processing multiple data points:</p>
+                <ul>
+                    <li><strong>Weights:</strong> A list of learned numbers, e.g., <code>[weight_1, weight_2, ..., weight_n]</code>.</li>
+                    <li><strong>Bias:</strong> A single learned number.</li>
+                    <li><strong>Input Data (data_inputs):</strong> A list of lists, where each inner list is the features for one data point, e.g., <code>[[feature_1a, feature_2a, ...], [feature_1b, feature_2b, ...], ...]</code>. The number of features in each inner list must always match the number of weights (n).</li>
+                    <li><strong>True Labels (true_labels):</strong> A list containing the known correct category (0 or 1) for each corresponding data point in <code>data_inputs</code>, e.g., <code>[label_a, label_b, ...]</code>. This list must have the same length as <code>data_inputs</code>.</li>
+                </ul>
+                <p><strong>Question:</strong> There are two constraints included in the above description. Why are these constraints important for our simple model to work correctly? (Select ALL that apply)</p>
+                <ol type="A">
+                    <li>The number of features in each input data point must match the number of weights so that we can correctly pair each feature with its corresponding weight when calculating the weighted sum.</li>
+                    <li>The list of true labels must have the same length as the list of input data points so that we have a known correct answer for every data point we want to evaluate for.</li>
+                    <li>Having the same number of features and weights makes the model's calculations faster.</li>
+                    <li>The constraints ensure that the data is stored efficiently on our computer.</li>
+                    <li>If the list of true labels is shorter than the list of data inputs, we wouldn't know the correct outcome for some data points.</li>
+                </ol>
+                <button class="toggle-feedback">Show Feedback</button>
+                <div class="feedback" style="display: none;">
+                    <p><strong>Correct Options:</strong> A, B, E</p>
+                </div>
+            </div>
+
+            <div class="question" id="q2">
+                <h2>Decomposing Weighted Sum Calculation</h2>
+                <p><strong>Scenario:</strong> The first step for our simple AI model to process a single data point is calculating the weighted sum (z). This involves taking the input features for that data point, multiplying each feature by its corresponding weight, summing up all these products, and then adding the bias. The formula for the weighted sum (z) for a single data point with features <code>[feature_1, ..., feature_n]</code>, weights <code>[weight_1, ..., weight_n]</code>, and bias <code>bias</code> is:</p>
+                <p><code>z = (feature_1 * weight_1) + ... + (feature_n * weight_n) + bias</code></p>
+                <p>You need to write a Python function that takes the features for a single data point (a list), the list of weights, and the bias, and returns the calculated weighted sum (z).</p>
+                <p><strong>Question:</strong> Consider the principles of Problem Decomposition (Chapter 7). Which of the following helper function(s) would be most useful and align with good decomposition practices for solving just the task of calculating the weighted sum for a single data point, assuming that this is the entirety of our task? (Select ALL that apply)</p>
+                <ol type="A">
+                    <li>A function <code>calculate_product(value1, value2)</code> that takes two numbers and returns their product.</li>
+                    <li>A function <code>sum_list(numbers)</code> that takes a list of numbers and returns their sum.</li>
+                    <li>A function <code>calculate_dot_product(list1, list2)</code> that takes two lists of the same length and returns the sum of their element-wise products (e.g., <code>list1[0]*list2[0] + list1[1]*list2[1] + ...</code>).</li>
+                    <li>A function <code>add_bias(value, bias)</code> that takes a value and a bias and returns their sum.</li>
+                    <li>A function <code>process_single_input(input_features, weights, bias)</code> that calculates the weighted sum, determines the prediction, and calculates the loss for a single data point.</li>
+                </ol>
+                <button class="toggle-feedback">Show Feedback</button>
+                <div class="feedback" style="display: none;">
+                    <p><strong>Correct Option:</strong> C</p>
+                </div>
+            </div>
+
+            <div class="question" id="q3">
+                <h2>Decomposing Prediction and Loss in a Simple AI Model</h2>
+                <p><strong>Summary of background from previous questions:</strong> When tackling complex challenges, like those in Artificial Intelligence, breaking them down into smaller, manageable pieces is a crucial skill. Think about how tools like Github Copilot assist developers by predicting code; we'll apply a similar step-by-step approach to a fundamental AI task: binary classification. The goal here is to categorize an item into one of two groups (e.g., 'spam'/'not spam', 'cat'/'dog'), which we often represent numerically as 1 or 0.</p>
+                <p>Imagine you've developed a simple AI classification model. This model takes a set of input values (called features) for an item. It uses its internal learned values (weights and a bias) to compute a single score. This score is then used to make the final prediction (0 or 1). We want to see how "accurate" our model is by comparing our "predictions" against the true labels. The components for our linear model are:</p>
+                <ul>
+                    <li><strong>Weights:</strong> A list of learned numbers, e.g., <code>[weight_1, ..., weight_n]</code>.</li>
+                    <li><strong>Bias:</strong> A single learned number, e.g., <code>bias</code>.</li>
+                    <li><strong>Input Data (data_inputs):</strong> A list of lists where each inner list is the features for one data point.</li>
+                    <li><strong>Constraint:</strong> The number of features must match the number of weights.</li>
+                    <li><strong>True Labels (true_labels):</strong> A list of the correct category (0 or 1) for each data point.</li>
+                    <li><strong>Constraint:</strong> This list must be the same length as <code>data_inputs</code>.</li>
+                </ul>
+                <p>The core calculation is the weighted sum (z): <code>z = (feature_1 * weight_1) + ... + (feature_n * weight_n) + bias</code>.</p>
+                <p><strong>New Info for this question:</strong> Based on this weighted sum z, the model makes a prediction: If z > 0, predict 1. If z &lt;= 0, predict 0.</p>
+                <p><strong>Your Task:</strong> Write a single Python function <code>predict_all(weights, bias, data_inputs, true_labels)</code> that processes every data point. For each, it must: 1. Calculate the weighted sum (z). 2. Determine the binary prediction (0 or 1). After processing all data points, the function must: 1. Calculate the overall accuracy. 2. Collect all predictions into a list. The function must return a tuple: <code>(accuracy, [predictions])</code>.</p>
+                <p><strong>Question:</strong> Recalling the principles of Problem Decomposition, which of the following helper functions would be most useful and align with good decomposition practices? (Select ALL that apply)</p>
+                <ol type="A">
+                    <li>Write one very long function <code>predict_all</code> that does everything.</li>
+                    <li>Create a helper function <code>calculate_weighted_sum(input_features, weights, bias)</code> that returns the weighted sum (z) for a single data point.</li>
+                    <li>Create a helper function <code>make_prediction(weighted_sum)</code> that takes a weighted sum and returns the binary prediction.</li>
+                    <li>Create a helper function <code>calculate_loss(weighted_sum, true_label)</code> that computes how "wrong" a prediction was.</li>
+                    <li>Create a helper function <code>check_input_lengths(weights, data_inputs)</code> to verify feature and weight counts match.</li>
+                    <li>Create a helper function <code>calculate_accuracy(predicted_labels, actual_labels)</code> that takes two lists and returns the accuracy score.</li>
+                    <li>Create a helper function <code>process_batch(batch_data, weights, bias)</code> to calculate the weighted sum for a group of data points.</li>
+                    <li>Create a helper function <code>update_weights(weights, error_signal)</code> to modify model weights.</li>
+                    <li>Create a helper function <code>get_prediction_and_sum(input_features, weights, bias)</code> that returns both the weighted sum and prediction as a tuple.</li>
+                    <li>Create a helper function <code>print_info(index, features, z, prediction)</code> to print details for each data point.</li>
+                </ol>
+                <button class="toggle-feedback">Show Feedback</button>
+                <div class="feedback" style="display: none;">
+                    <p><strong>Correct Options:</strong> B, C, F</p>
+                    <p><strong>Reasoning:</strong></p>
+                    <ul>
+                        <li><strong>B (calculate_weighted_sum):</strong> Isolates the core mathematical calculation for a single data point. This is a distinct, reusable step, perfect for a helper function.</li>
+                        <li><strong>C (make_prediction):</strong> Isolates the simple thresholding logic that converts the score (z) into a classification (0 or 1). This is another distinct, reusable step.</li>
+                        <li><strong>F (calculate_accuracy):</strong> Isolates the final step of comparing all predictions to the true labels and computing the accuracy metric. This clearly separates the per-item processing from the final evaluation.</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../lib/highlight/highlight.min.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>

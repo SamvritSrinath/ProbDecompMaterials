@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Check for authentication
+  if (sessionStorage.getItem('authenticated') !== 'true') {
+    if (!window.location.pathname.endsWith('auth.html')) {
+      window.location.href = 'auth.html';
+      return;
+    }
+  }
+
   // Generate Table of Contents with Suites
   const toc = document.getElementById('toc');
   const mainContent = document.querySelector('.content');

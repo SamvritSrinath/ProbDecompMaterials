@@ -24,7 +24,7 @@
               <li><a href="v2pd.html">Homework 7</a></li>
               <li><a href="v3pd.html">Homework 8</a></li>
               <li><a href="v4pd.html">Homework 9</a></li>
-              <li><a href="finalexam.html">Final Exam</a></li>
+              <!-- <li><a href="finalexam.html">Final Exam</a></li> -->
             </ul>
           </nav>
         </div>
@@ -56,7 +56,9 @@
               Find the average units for students in a specific major (e.g.,
               "Computer Science").
             </li>
-            <li>Identify all students who have a particular grade (‘A’ - ‘F’).</li>
+            <li>
+              Identify all students who have a particular grade (‘A’ - ‘F’).
+            </li>
             <li>Determine which major has the highest average units.</li>
           </ul>
           <p>
@@ -69,22 +71,23 @@
             <li>
               <b
                 ><code>get_total_units(students_list)</code>: Takes the list of
-                students and returns the sum of all the units
-                collectively.</b
+                students and returns the sum of all the units collectively.</b
               >
             </li>
             <li>
               <b
-                ><code>calculate_major_average_units(students_list, major_name)</code>:
-                Takes the list of students and a major name, and returns the
+                ><code
+                  >calculate_major_average_units(students_list,
+                  major_name)</code
+                >: Takes the list of students and a major name, and returns the
                 average units for students in that major.</b
               >
             </li>
             <li>
               <b
-                ><code>find_students_with_grade(students_list, grade:str)</code>:
-                Takes the list of students, and a grade (‘A’ - ‘F’) and returns
-                a list of names of students who have that grade.</b
+                ><code>find_students_with_grade(students_list, grade:str)</code
+                >: Takes the list of students, and a grade (‘A’ - ‘F’) and
+                returns a list of names of students who have that grade.</b
               >
             </li>
             <li>
@@ -120,10 +123,9 @@
             Identifying Decomposition Steps for Complex 2D List Processing
           </h2>
           <p>
-            <strong>Question:</strong> You are given a 2D list grid
-            representing a Square Matrix of integer values. You need to write a
-            function <code>analyze_grid(grid)</code> that performs three main
-            tasks:
+            <strong>Question:</strong> You are given a 2D list grid representing
+            a Square Matrix of integer values. You need to write a function
+            <code>analyze_grid(grid)</code> that performs three main tasks:
           </p>
           <ul>
             <li>Calculate the sum of all elements in the grid.</li>
@@ -144,28 +146,31 @@
             <code>(total_sum, [row_maximums], encircled_count)</code>.
           </p>
           <p>
-            Consider the principles of Problem Decomposition discussed in Chapter
-            7, particularly Sections 7.1, 7.4, 7.5, and 7.6. Which of the
-            following approaches or helper functions would be useful in creating
-            a well-decomposed solution for parts of this problem? (Select All)
+            Consider the principles of Problem Decomposition discussed in
+            Chapter 7, particularly Sections 7.1, 7.4, 7.5, and 7.6. Which of
+            the following approaches or helper functions would be useful in
+            creating a well-decomposed solution for parts of this problem?
+            (Select All)
           </p>
           <ol type="A">
             <li>
-              Write a single function <code>analyze_grid</code> containing nested
-              loops to calculate the sum, find row maximums, and count
+              Write a single function <code>analyze_grid</code> containing
+              nested loops to calculate the sum, find row maximums, and count
               encircled elements all within the same function body.
             </li>
             <li>
               <b
-                >Create a helper function <code>calculate_grid_sum(grid)</code>
-                that iterates through the grid and returns the total sum.</b
+                >Create a helper function
+                <code>calculate_grid_sum(grid)</code> that iterates through the
+                grid and returns the total sum.</b
               >
             </li>
             <li>
               <b
-                >Create a helper function <code>find_row_maximum(row)</code>
-                that takes a list of numbers (a single row) and returns the
-                maximum value in that row. Assume the row is not empty.</b
+                >Create a helper function
+                <code>find_row_maximum(row)</code> that takes a list of numbers
+                (a single row) and returns the maximum value in that row. Assume
+                the row is not empty.</b
               >
             </li>
             <li>
@@ -189,8 +194,9 @@
               encircled elements to 0.
             </li>
             <li>
-              Create a helper function <code>find_minimum_value(grid)</code> that
-              finds the smallest element in the entire grid.
+              Create a helper function
+              <code>find_minimum_value(grid)</code> that finds the smallest
+              element in the entire grid.
             </li>
             <li>
               Create a function that modifies the input grid by replacing all
